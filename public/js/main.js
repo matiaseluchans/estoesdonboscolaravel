@@ -78,7 +78,7 @@ function link25000() {
 
     // Modal Video
     $(document).ready(function () {
-        var $videoSrc;
+        /*var $videoSrc;
         $('.btn-play').click(function () {
             $videoSrc = $(this).data("src");
         });
@@ -90,7 +90,7 @@ function link25000() {
 
         $('#videoModal').on('hide.bs.modal', function (e) {
             $("#video").attr('src', $videoSrc);
-        })
+        })*/
     });
 
 

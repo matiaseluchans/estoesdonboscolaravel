@@ -47,3 +47,11 @@ Route::get('/contacto', function () {
 
 Route::resource('productos', ProductoController::class);
 Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
+
+//Route::post('/productos/{id}/pago', [ProductoController::class, 'crearPago'])->name('productos.pago');
+
+
+Route::post('/productos-pago/{id}', [ProductoController::class, 'createPayment']);
+Route::get('/productos/{id}/success', [ProductoController::class, 'success'])->name('productos.success');
+Route::get('/productos/failure', [ProductoController::class, 'failure'])->name('productos.failure');
+Route::get('/productos/pending', [ProductoController::class, 'pending'])->name('productos.pending');

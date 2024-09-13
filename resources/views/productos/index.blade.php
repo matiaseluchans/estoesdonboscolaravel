@@ -14,17 +14,10 @@
     }
 </style>
 
-@if(session('success'))
-<div class="alert alert-success">
-    {{ session('success') }}
-</div>
-@endif
 
-@if(session('error'))
-<div class="alert alert-danger">
-    {{ session('error') }}
-</div>
-@endif
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <div class="container-fluid bg-breadcrumb">
     <div class="container text-center py-5" style="max-width: 900px;">
         <h3 class="text-white display-3 mb-4 wow fadeInDown" data-wow-delay="0.1s">Comprar M<sup>2</sup></h1>
@@ -103,14 +96,14 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="editProductModalLabel">Editar Producto</h5>
+                            <h5 class="modal-title" id="editProductModalLabel">Comprar metro<sup>2<sup></h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <!-- Aquí se cargará dinámicamente el formulario con los datos del producto -->
-                            <form id="editProductForm" method="POST" action="{{ route('productos.update', $producto->id) }}">
+                            <form id="editProductForm" action="{{ route('productos.update', $producto->id) }}">
                                 @csrf
-                                @method('PUT')
+
                                 <div class="row">
                                     <div class="col-md-6">
 
@@ -120,20 +113,20 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label for="apellido" class="form-label">Apellido</label>
-                                        <input type="text" name="apellido" id="apellido" class="form-control" required>
+                                        <input type="text" name="apellido" id="apellido" class="form-control">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="email" class="form-label">Email</label>
-                                        <input type="email" name="email" id="email" class="form-control" required>
+                                        <input type="text" name="email" id="email" class="form-control">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="telefono" class="form-label">Teléfono</label>
-                                        <input type="text" name="telefono" id="telefono" class="form-control" required>
+                                        <input type="text" name="telefono" id="telefono" class="form-control">
                                     </div>
                                 </div>
-                                <div class="row">
+                                <!--<div class="row">
                                     <div class="col-md-6">
 
                                         <label for="precio" class="form-label">Precio</label>
@@ -147,8 +140,13 @@
                                             <option value="VENDIDO">VENDIDO</option>
                                         </select>
                                     </div>
+                                </div>-->
+                                <hr>
+                                <div class="row mt-3">
+                                    <div class="col-md-12 text-end">
+                                        <button type="button" id="mp-button" class="btn btn-primary">Registrar compra</button>
+                                    </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Registrar compra</button>
                             </form>
                         </div>
                     </div>
@@ -160,10 +158,49 @@
         </div>
     </div>
 </div>
+
+@if(session('success'))
+<script>
+    Swal.fire({
+        icon: 'success',
+        title: '¡El pago se Realizo con exito!',
+        text: "{{ session(' success ') }}",
+        //timer: 3000,
+        showConfirmButton: true
+    });
+</script>
+@endif
+
+@if(session('error'))
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Ocurrio un error con el pago',
+        text: "{{ session('error ') }}",
+        //timer: 3000,
+        showConfirmButton: true
+    });
+</script>
+@endif
+
+@if(session('info'))
+<script>
+    Swal.fire({
+        icon: 'info',
+        title: 'El pago se encuentra Pendiente',
+        text: "{{ session('info ') }}",
+        //timer: 3000,
+        showConfirmButton: true
+    });
+</script>
+@endif
+
 <script>
     function editProduct(id) {
+        $('#editProductForm').attr('action', `/productos/${id}`);
+        $('#editProductModal').modal('show');
         // Realiza una petición AJAX para obtener los datos del producto por ID
-        $.ajax({
+        /*$.ajax({
             url: `/productos/${id}/edit`, // Ruta para obtener los datos del producto
             method: 'GET',
             success: function(data) {
@@ -184,58 +221,113 @@
             error: function(error) {
                 console.error('Error al obtener los datos del producto:', error);
             }
-        });
+    });*/
     }
 
+    $(document).ready(function() {
 
-    $('#editProductForm').on('submit', function(event) {
-        event.preventDefault(); // Previene el envío normal del formulario
 
-        let form = $(this);
-        let formData = form.serialize(); // Serializa los datos del formulario
+        $('#mp-button').on('click', function() {
+            let form = $('#editProductForm');
+            // Crear un objeto vacío donde almacenarás los datos
+            let formDataObject = {};
 
-        // Mostrar SweetAlert de "Registrando información"
-        Swal.fire({
-            title: 'Registrando información...',
-            text: 'Por favor, espera un momento.',
-            allowOutsideClick: false,
-            showConfirmButton: false,
-            willOpen: () => {
-                Swal.showLoading();
-            }
+            // Usar serializeArray para obtener los datos y luego convertirlo en un objeto
+            form.serializeArray().forEach(function(field) {
+                formDataObject[field.name] = field.value;
+            });
+
+            console.log(formDataObject);
+
+
+            //let formData = form.serialize();
+            //let formData = new FormData(form[0]);
+            //console.log(formData);
+            let productId = form.attr('action').split('/').pop();
+
+            Swal.fire({
+                title: 'Aguarde un momento',
+                text: 'Redirigiendo a Mercado Pago...',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                willOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            //console.log(formData);
+
+            $.ajax({
+                url: `/productos-pago/${productId}`,
+                method: 'POST',
+                //data: formData,
+                data: formDataObject,
+                //data: {
+                //   _token: '{{ csrf_token() }}',
+                //form: formData
+                //},
+                success: function(response) {
+                    window.location.href = response.init_point;
+                },
+                error: function(xhr) {
+                    Swal.close();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Ocurrió un error al procesar el pago. Por favor, intenta nuevamente.',
+                    });
+                }
+            });
         });
 
-        // Enviar los datos del formulario mediante AJAX
-        $.ajax({
-            url: form.attr('action'),
-            method: 'POST',
-            data: formData,
-            success: function(response) {
-                // Cierra el Swal de carga
-                Swal.close();
+        /*$('#editProductForm').on('submit', function(event) {
+            event.preventDefault(); // Previene el envío normal del formulario
 
-                // Mostrar SweetAlert de éxito
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Operación exitosa',
-                    text: 'El producto ha sido actualizado correctamente.',
-                }).then(() => {
-                    // Recargar la página o actualizar la tabla
-                    location.reload(); // O usa otra lógica si no quieres recargar toda la página
-                });
-            },
-            error: function(xhr) {
-                // Cierra el Swal de carga
-                Swal.close();
+            let form = $(this);
+            let formData = form.serialize(); // Serializa los datos del formulario
 
-                // Mostrar SweetAlert de error
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Ocurrió un error al intentar actualizar el producto. Por favor, intenta nuevamente.',
-                });
-            }
-        });
+            // Mostrar SweetAlert de "Registrando información"
+            Swal.fire({
+                title: 'Registrando información...',
+                text: 'Por favor, espera un momento.',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                willOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Enviar los datos del formulario mediante AJAX
+            $.ajax({
+                url: form.attr('action'),
+                method: 'POST',
+                data: formData,
+                success: function(response) {
+                    // Cierra el Swal de carga
+                    Swal.close();
+
+                    // Mostrar SweetAlert de éxito
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Operación exitosa',
+                        text: 'El producto ha sido actualizado correctamente.',
+                    }).then(() => {
+                        // Recargar la página o actualizar la tabla
+                        location.reload(); // O usa otra lógica si no quieres recargar toda la página
+                    });
+                },
+                error: function(xhr) {
+                    // Cierra el Swal de carga
+                    Swal.close();
+
+                    // Mostrar SweetAlert de error
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Ocurrió un error al intentar actualizar el producto. Por favor, intenta nuevamente.',
+                    });
+                }
+            });
+        });*/
     });
 </script>
 
