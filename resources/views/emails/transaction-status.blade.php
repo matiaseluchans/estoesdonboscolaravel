@@ -14,4 +14,4 @@
     <li>Teléfono: {{ $data['telefono'] }}</li>
 </ul>
 
-<p>Gracias por tu compra.</p>
+<p>Gracias por tu participacón.</p>
