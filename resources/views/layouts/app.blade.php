@@ -124,7 +124,7 @@
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto py-0">
                         <a href="{{ route('home') }}" class="text-center nav-item nav-link {{ Request::is('/') ? 'active' : '' }}">Inicio</a>
-                        <a href="{{ route('metros.index') }}" class="text-center nav-item nav-link {{ Request::is('metros*') ? 'active' : '' }}">Comprar M<sup>2</sup></a>
+                        <a href="{{ route('metros.index') }}" class="text-center nav-item nav-link {{ Request::is('metros*') ? 'active' : '' }}">Colaborar <br>con M<sup>2</sup></a>
                         <a href="{{ route('home') }}#proyecto" class="text-center nav-item nav-link">Proyecto</a>
                         <a href=" {{ route('ecko') }}" class="text-center nav-item nav-link {{ Request::is('ecko') ? 'active' : '' }}">Ecko</a>
                         <a href="{{ route('colabora') }}" class="text-center nav-item nav-link botonesDePago {{ Request::is('colabora') ? 'active' : '' }}">
