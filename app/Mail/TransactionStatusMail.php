@@ -30,7 +30,9 @@ class TransactionStatusMail extends Mailable
     public function build()
     {
         return $this->subject('11deSintetico - Estado de la Transacción')
+
             ->view('emails.transaction-status')
+            ->replyTo('proyecto11desintetico@gmail.com')
             ->with('data', $this->data);
     }
 }

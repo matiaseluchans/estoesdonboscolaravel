@@ -55,3 +55,6 @@ Route::post('/productos-pago/{id}', [ProductoController::class, 'createPayment']
 Route::get('/productos/{id}/success', [ProductoController::class, 'success'])->name('productos.success');
 Route::get('/productos/failure', [ProductoController::class, 'failure'])->name('productos.failure');
 Route::get('/productos/pending', [ProductoController::class, 'pending'])->name('productos.pending');
+
+
+Route::get('/mail-test', [ProductoController::class, 'mailTest'])->name('productos.mailTest');

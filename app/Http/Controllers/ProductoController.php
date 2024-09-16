@@ -30,9 +30,20 @@ class ProductoController extends Controller
             ->orderBy('id')
             ->get();
 
-        //$productos = Producto::paginate(15);
+        $cantidadTotal = $productos->count();
+        $cantidadVendidos = $productos->where('estado', 'VENDIDO')->count();
+        $cantidadDisponibles = $cantidadTotal - $cantidadVendidos;
 
-        return view('productos.index', compact('productos'));
+        $porcentajeVendidos = ($cantidadVendidos / $cantidadTotal) * 100;
+
+        // Pasamos las variables a la vista
+        // return view('productos.index', compact('cantidadVendidos', 'cantidadDisponibles', 'porcentajeVendidos'));
+        return view('productos.index', [
+            'productos' => $productos,
+            'cantidadVendidos' => $cantidadVendidos,
+            'cantidadDisponibles' => $cantidadDisponibles,
+            'porcentajeVendidos' => $porcentajeVendidos,
+        ]);
     }
 
     /**
@@ -232,8 +243,8 @@ class ProductoController extends Controller
         $item = new \MercadoPago\Item();
         $item->title = $producto->descripcion;
         $item->quantity = 1;
-        //$item->unit_price = $producto->precio;
-        $item->unit_price = 1;
+        $item->unit_price = $producto->precio;
+        //$item->unit_price = 1;
         $preference->items = [$item];
 
         // Crear el objeto de payer (comprador) con los datos del formulario
@@ -341,10 +352,15 @@ class ProductoController extends Controller
 
         // Enviar correo a los 3 contactos
         //$contacts = ['contacto1@example.com', 'contacto2@example.com', 'contacto3@example.com'];
-        $contacts = ['matiaseluchans@gmail.com', 'proyecto11desintetico@gmail.com', $email];
+        /*$contacts = ['matiaseluchans@gmail.com', 'proyecto11desintetico@gmail.com', $email];
+
         foreach ($contacts as $contact) {
             Mail::to($contact)->send(new TransactionStatusMail($data));
-        }
+        }*/
+
+        Mail::to('proyecto11desintetico@gmail.com')
+            ->cc(['matiaseluchans@gmail.com', $email])
+            ->send(new TransactionStatusMail($data));
 
 
         // Redirige a la página principal con un mensaje de éxito
@@ -389,12 +405,9 @@ class ProductoController extends Controller
         ];
 
         // Enviar correo a los 3 contactos
-        //$contacts = ['contacto1@example.com', 'contacto2@example.com', 'contacto3@example.com'];
-        $contacts = ['matiaseluchans@gmail.com', 'proyecto11desintetico@gmail.com', $email];
-        foreach ($contacts as $contact) {
-            Mail::to($contact)->send(new TransactionStatusMail($data));
-        }
-
+        Mail::to('proyecto11desintetico@gmail.com')
+            ->cc(['matiaseluchans@gmail.com', $email])
+            ->send(new TransactionStatusMail($data));
 
 
         // Mensaje de fallo en la sesión
@@ -440,10 +453,9 @@ class ProductoController extends Controller
 
         // Enviar correo a los 3 contactos
         //$contacts = ['contacto1@example.com', 'contacto2@example.com', 'contacto3@example.com'];
-        $contacts = ['matiaseluchans@gmail.com', 'proyecto11desintetico@gmail.com', $email];
-        foreach ($contacts as $contact) {
-            Mail::to($contact)->send(new TransactionStatusMail($data));
-        }
+        Mail::to('proyecto11desintetico@gmail.com')
+            ->cc(['matiaseluchans@gmail.com', $email])
+            ->send(new TransactionStatusMail($data));
 
         // Mensaje de pendiente en la sesión
         return redirect()->route('productos.index')->with('info', 'La compra del Metro N° ' . $id . ' está pendiente. Espera la confirmación.');
@@ -461,5 +473,32 @@ class ProductoController extends Controller
 
         // Redirige al usuario a la página deseada
         return redirect()->route('home')->with('success', 'Compra registrada exitosamente.');
+    }
+
+    public function mailTest(Request $request)
+    {
+
+
+        // Recuperar la metadata que enviaste en la preferencia
+        $nombre = "Esto es una prueba";
+        $apellido = "Gonzalez";
+        $email = "prueba@gmail.com";
+        $telefono = "12345678";
+
+
+
+        // Datos para enviar en el correo
+        $data = [
+            'status' => "mail de prueba",
+            'payment_id' => "xxx",
+            'id' => 1,
+            'nombre' => $nombre,
+            'apellido' => $apellido,
+            'email' => $email,
+            'telefono' => $telefono
+        ];
+
+        Mail::to('matiaseluchans@gmail.com')
+            ->send(new TransactionStatusMail($data));
     }
 }
