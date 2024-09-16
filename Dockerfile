@@ -22,6 +22,6 @@ RUN addgroup --gid 1001 -S donbosco && \
     adduser -G donbosco --shell /bin/false --disabled-password -H --uid 1001 donbosco
 
 EXPOSE 8000
-USER donbosco
 RUN php artisan key:generate
+USER donbosco
 CMD php artisan config:cache && php artisan serve --host=0.0.0.0 --port=8000
