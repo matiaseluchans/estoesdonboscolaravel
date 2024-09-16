@@ -11,6 +11,7 @@
         /* Opcional: para alinear verticalmente el contenido */
         padding: 2px;
         /* Opcional: para agregar espacio dentro de las celdas */
+        font-size: 12px;
     }
 
     .grid-container {
@@ -79,7 +80,7 @@
 
 <div class="container-fluid bg-breadcrumb">
     <div class="container text-center py-5" style="max-width: 900px;">
-        <h3 class="text-white display-3 mb-4 wow fadeInDown" data-wow-delay="0.1s">Comprar M<sup>2</sup></h1>
+        <h3 class="text-white display-3 mb-4 wow fadeInDown" data-wow-delay="0.1s">Colabora con un M<sup>2</sup></h1>
 
     </div>
 </div>
@@ -124,8 +125,8 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th class="text-center">ID</th>
-                        <th>Descripcion</th>
+                        <th class="text-center">Metro N°</th>
+                        <!--<th>Descripcion</th>-->
                         <!--<th>Nombre</th>
                         <th>Apellido</th>
                         <th>Email</th>
@@ -138,8 +139,8 @@
                 <tbody>
                     @foreach($data as $d)
                     <tr>
-                        <td style="height:15px" class="text-center">{{ $d->id }}</td>
-                        <td>{{ $d->descripcion }}</td>
+                        <td style="height:13px" class="text-center">N°{{ $d->id }}</td>
+                        <!--<td>{{ $d->descripcion }}</td>-->
                         <!--<td>{{ $d->nombre }}</td>
                             <td>{{ $d->apellido }}</td>
                             <td>{{ $d->email }}</td>
@@ -158,7 +159,7 @@
 
                             <!--<a href="{{ route('metros.edit', $d->id) }}" class="btn btn-warning btn-sm">Comprar</a>
 -->
-                            <a class="btn btn-warning btn-sm" onclick="editProduct({{ $d->id }})">Comprar</a>
+                            <a class="btn btn-warning btn-sm" onclick="editProduct({{ $d->id }})">Colabora</a>
 
                             <!--<form action="{{ route('metros.destroy', $d->id) }}" method="POST" class="d-inline-block">
                                     @csrf
@@ -180,7 +181,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="editProductModalLabel">Comprar metro<sup>2<sup></h5>
+                            <h5 class="modal-title" id="editProductModalLabel">Colabora con 1 metro<sup>2<sup></h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
