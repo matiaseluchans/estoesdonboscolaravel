@@ -118,7 +118,7 @@
                 <p>{{ $cantidadDisponibles }} metros cuadrados <span class="badge bg-success">DISPONIBLES</span></p>
             </div>
 
-            @if($productos->isEmpty())
+            @if($data->isEmpty())
             <p>No hay productos disponibles.</p>
             @else
             <table class="table table-striped">
@@ -136,31 +136,31 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($productos as $producto)
+                    @foreach($data as $d)
                     <tr>
-                        <td style="height:15px" class="text-center">{{ $producto->id }}</td>
-                        <td>{{ $producto->descripcion }}</td>
-                        <!--<td>{{ $producto->nombre }}</td>
-                            <td>{{ $producto->apellido }}</td>
-                            <td>{{ $producto->email }}</td>
-                            <td>{{ $producto->telefono }}</td>-->
-                        <td>$ {{ number_format($producto->precio, 2, ',', '.') }}</td>
+                        <td style="height:15px" class="text-center">{{ $d->id }}</td>
+                        <td>{{ $d->descripcion }}</td>
+                        <!--<td>{{ $d->nombre }}</td>
+                            <td>{{ $d->apellido }}</td>
+                            <td>{{ $d->email }}</td>
+                            <td>{{ $d->telefono }}</td>-->
+                        <td>$ {{ number_format($d->precio, 2, ',', '.') }}</td>
                         <td> <span class="badge
-                                    @if($producto->estado == 'DISPONIBLE')
+                                    @if($d->estado == 'DISPONIBLE')
                                         bg-success
                                     @else
                                         bg-danger
                                     @endif">
-                                {{ $producto->estado }}
+                                {{ $d->estado }}
                             </span>
                         <td>
-                            @if($producto->estado != 'VENDIDO')
+                            @if($d->estado != 'VENDIDO')
 
-                            <!--<a href="{{ route('metros.edit', $producto->id) }}" class="btn btn-warning btn-sm">Comprar</a>
+                            <!--<a href="{{ route('metros.edit', $d->id) }}" class="btn btn-warning btn-sm">Comprar</a>
 -->
-                            <a class="btn btn-warning btn-sm" onclick="editProduct({{ $producto->id }})">Comprar</a>
+                            <a class="btn btn-warning btn-sm" onclick="editProduct({{ $d->id }})">Comprar</a>
 
-                            <!--<form action="{{ route('metros.destroy', $producto->id) }}" method="POST" class="d-inline-block">
+                            <!--<form action="{{ route('metros.destroy', $d->id) }}" method="POST" class="d-inline-block">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
@@ -185,7 +185,7 @@
                         </div>
                         <div class="modal-body">
                             <!-- Aquí se cargará dinámicamente el formulario con los datos del producto -->
-                            <form id="editProductForm" action="{{ route('metros.update', $producto->id) }}">
+                            <form id="editProductForm" action="{{ route('metros.update', $d->id) }}">
                                 @csrf
 
                                 <div class="row">

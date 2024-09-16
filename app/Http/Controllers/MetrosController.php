@@ -26,12 +26,12 @@ class MetrosController extends Controller
     public function index()
     {
         // Obtener todos los productos
-        $productos = Metro::orderByRaw('estado = "DISPONIBLE" DESC')
+        $data = Metro::orderByRaw('estado = "DISPONIBLE" DESC')
             ->orderBy('id')
             ->get();
 
-        $cantidadTotal = $productos->count();
-        $cantidadVendidos = $productos->where('estado', 'VENDIDO')->count();
+        $cantidadTotal = $data->count();
+        $cantidadVendidos = $data->where('estado', 'VENDIDO')->count();
         $cantidadDisponibles = $cantidadTotal - $cantidadVendidos;
 
         $porcentajeVendidos = ($cantidadVendidos / $cantidadTotal) * 100;
@@ -39,7 +39,7 @@ class MetrosController extends Controller
         // Pasamos las variables a la vista
         // return view('metros.index', compact('cantidadVendidos', 'cantidadDisponibles', 'porcentajeVendidos'));
         return view('metros.index', [
-            'productos' => $productos,
+            'data' => $data,
             'cantidadVendidos' => $cantidadVendidos,
             'cantidadDisponibles' => $cantidadDisponibles,
             'porcentajeVendidos' => $porcentajeVendidos,
@@ -79,30 +79,30 @@ class MetrosController extends Controller
         ]);
 
         // Crear el producto
-        $producto = Metro::create($validatedData);
+        $data = Metro::create($validatedData);
 
-        return response()->json(['message' => 'Producto creado con éxito', 'producto' => $producto]);
+        return response()->json(['message' => 'Producto creado con éxito', 'producto' => $data]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Metro  $producto
+     * @param  \App\Models\Metro  $data
      * @return \Illuminate\Http\Response
      */
-    public function show(Producto $producto)
+    public function show(Producto $data)
     {
         // Mostrar un producto específico
-        return response()->json($producto);
+        return response()->json($data);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Metro  $producto
+     * @param  \App\Models\Metro  $data
      * @return \Illuminate\Http\Response
      */
-    /*    public function edit(Producto $producto)
+    /*    public function edit(Producto $data)
     {
         // Si tienes una vista para editar productos
         return view('metros.edit', compact('producto'));
@@ -111,18 +111,18 @@ class MetrosController extends Controller
 
     public function edit($id)
     {
-        $producto = Metro::find($id);
+        $data = Metro::find($id);
 
-        return response()->json($producto); // Devuelve los datos del producto en formato JSON
+        return response()->json($data); // Devuelve los datos del producto en formato JSON
     }
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Metro  $producto
+     * @param  \App\Models\Metro  $data
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Producto $producto)
+    public function update(Request $request, Producto $data)
     {
 
         // Validar los datos
@@ -139,7 +139,7 @@ class MetrosController extends Controller
         ]);
         // Intentar actualizar el producto
         try {
-            $producto->update($validatedData);
+            $data->update($validatedData);
 
             // Redirigir al index con un mensaje de éxito
             // return redirect()->route('metros.index')->with('success', 'Los datos se guardaron con éxito.');
@@ -149,7 +149,7 @@ class MetrosController extends Controller
             ]);
         } catch (\Exception $e) {
             // Si ocurre algún error, redirigir a la vista de edición con un mensaje de error
-            //return redirect()->route('metros.edit', $producto->id)->with('error', 'Revisa tus datos. No pudimos actualizar la información.');
+            //return redirect()->route('metros.edit', $data->id)->with('error', 'Revisa tus datos. No pudimos actualizar la información.');
             return response()->json([
                 'success' => false,
                 'message' => 'Error al registrar la compra: ' . $e->getMessage()
@@ -160,13 +160,13 @@ class MetrosController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Metro  $producto
+     * @param  \App\Models\Metro  $data
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Metro $producto)
+    public function destroy(Metro $data)
     {
         // Eliminar el Metro (soft delete)
-        //$producto->delete();
+        //$data->delete();
 
         return response()->json(['message' => 'Producto eliminado con éxito']);
     }
@@ -178,14 +178,14 @@ class MetrosController extends Controller
         SDK::setAccessToken(env('MERCADO_PAGO_ACCESS_TOKEN'));
 
         // Buscar el Metro
-        $producto = Metro::find($id);
+        $data = Metro::find($id);
 
         // Crear preferencia de pago
         $preference = new Preference();
 
         // Crear un item
         $item = new Item();
-        $item->title = $producto->descripcion;
+        $item->title = $data->descripcion;
         $item->quantity = 1;
         $item->unit_price = 30000; // Precio de $30000 por el M2
 
@@ -220,9 +220,9 @@ class MetrosController extends Controller
     public function success(Request $request, $id)
     {
         // Actualizar el estado del producto a 'VENDIDO'
-        $producto = Metro::find($id);
-        $producto->estado = 'VENDIDO';
-        $producto->save();
+        $data = Metro::find($id);
+        $data->estado = 'VENDIDO';
+        $data->save();
 
         // Redirigir con mensaje de éxito
         return redirect()->route('metros.index')->with('success', 'Producto comprado exitosamente.');
@@ -236,14 +236,14 @@ class MetrosController extends Controller
 
     public function createPayment(Request $request, $id)
     {
-        $producto = Metro::findOrFail($id);
+        $data = Metro::findOrFail($id);
         $preference = new Preference();
 
         // Crear el objeto de item
         $item = new \MercadoPago\Item();
-        $item->title = $producto->descripcion;
+        $item->title = $data->descripcion;
         $item->quantity = 1;
-        $item->unit_price = $producto->precio;
+        $item->unit_price = $data->precio;
         //$item->unit_price = 1;
         $preference->items = [$item];
 
@@ -265,7 +265,7 @@ class MetrosController extends Controller
 
         // Opcional: Guardar los datos en metadata (para referencia adicional)
         $preference->metadata = [
-            'producto_id' => $producto->id,
+            'producto_id' => $data->id,
             'nombre' => $request->input('nombre'),
             'apellido' => $request->input('apellido'),
             'email' => $request->input('email'),
@@ -294,7 +294,7 @@ class MetrosController extends Controller
         //Log::info($logrequests);
 
         // Obtén el producto
-        $producto = Metro::findOrFail($id);
+        $data = Metro::findOrFail($id);
 
         // Verifica la información de la transacción desde el request
         $payment_status = $request->input('status'); // Estado del pago
@@ -317,14 +317,14 @@ class MetrosController extends Controller
 
         // Si la transacción fue aprobada, actualiza el estado del producto
         if ($payment_status == 'approved') {
-            $producto->estado = 'VENDIDO';
-            $producto->nombre = $nombre;
-            $producto->apellido = $apellido;
-            $producto->email = $email;
-            $producto->telefono = $telefono;
+            $data->estado = 'VENDIDO';
+            $data->nombre = $nombre;
+            $data->apellido = $apellido;
+            $data->email = $email;
+            $data->telefono = $telefono;
 
             // Almacena la información de la transacción en el campo "data"
-            $producto->data = json_encode([
+            $data->data = json_encode([
                 'payment_id' => $payment_id,
                 'status' => $payment_status,
                 'nombre' => $nombre,
@@ -336,7 +336,7 @@ class MetrosController extends Controller
             ]);
 
             // Guarda los cambios en la base de datos
-            $producto->save();
+            $data->save();
         }
 
         // Datos para enviar en el correo
@@ -370,7 +370,7 @@ class MetrosController extends Controller
 
     public function failure(Request $request, $id)
     {
-        $producto = Metro::findOrFail($id);
+        //$data = Metro::findOrFail($id);
 
         // Verifica la información de la transacción desde el request
         $payment_status = $request->input('status'); // Estado del pago
@@ -417,7 +417,7 @@ class MetrosController extends Controller
     public function pending(Request $request, $id)
     {
 
-        $producto = Metro::findOrFail($id);
+        //$data = Metro::findOrFail($id);
 
         // Verifica la información de la transacción desde el request
         $payment_status = $request->input('status'); // Estado del pago
@@ -467,9 +467,9 @@ class MetrosController extends Controller
         // Por ejemplo, actualizar el estado del producto y guardar la información del pago
 
         // Ejemplo de actualización del producto
-        $producto = Metro::findOrFail($id);
-        $producto->estado = 'VENDIDO';
-        $producto->save();
+        $data = Metro::findOrFail($id);
+        $data->estado = 'VENDIDO';
+        $data->save();
 
         // Redirige al usuario a la página deseada
         return redirect()->route('home')->with('success', 'Compra registrada exitosamente.');
