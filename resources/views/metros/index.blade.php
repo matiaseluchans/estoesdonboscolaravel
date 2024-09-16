@@ -12,6 +12,65 @@
         padding: 2px;
         /* Opcional: para agregar espacio dentro de las celdas */
     }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 4px);
+        grid-gap: 1px;
+        /* Espacio entre los cuadraditos */
+        width: 600px;
+        /* Ancho fijo */
+        height: 700px;
+        /* Alto fijo */
+        overflow-y: scroll;
+        /* Permite scroll vertical */
+        overflow-x: hidden;
+        /* Oculta el scroll horizontal */
+        border: 0.5px solid #ccc;
+        /* Bordes opcionales */
+        margin: 0 auto;
+        /* Centrar el grid */
+    }
+
+    .grid-item {
+        width: 4px;
+        height: 4px;
+        background-color: #eee;
+    }
+
+    .sold {
+        background-color: #229547;
+    }
+
+
+    .progress-container {
+        width: 100%;
+        max-width: 900px;
+        /* Ajusta según tus necesidades */
+        margin: 0 auto;
+        background-color: #f3f3f3;
+        border-radius: 5px;
+        padding: 3px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    .progress-bar {
+        height: 30px;
+        background-color: green;
+        border-radius: 5px;
+        text-align: center;
+        color: white;
+        line-height: 30px;
+        font-weight: bold;
+        transition: width 0.4s ease;
+    }
+
+    .progress-bar-gray {
+        background-color: gray;
+        height: 30px;
+        display: inline-block;
+        border-radius: 5px;
+    }
 </style>
 
 
@@ -25,22 +84,47 @@
     </div>
 </div>
 <div class="container-fluid service overflow-hidden py-5">
-    <div class="row">
-        <div class="col-md-6 col-xs-12 mx-auto px-4">
-            <div class="rounded">
-                <img src="img/cancha-grilla-2.png" class="img-fluid w-100" style="margin-bottom: -7px;" alt="Image">
+    <div class="row px-4">
 
-            </div>
+        <div class="col-md-12 col-xs-12">
+
+
+            <!--<h5 class="sub-title pe-3">¿Cómo lo vamos a hacer?</h5>
+<h1 class="display-5 mb-4"> La Historia Detrás del Proyecto 11deSINTÉTICO</h1>-->
+            <p class="mb-4">
+                <b>¡Sumate a un proyecto que transforma vidas!</b> Ayudanos a convertir nuestra cancha en un espacio profesional,
+                donde los chicos puedan disfrutar del fútbol y seguir creciendo en un ambiente seguro y competitivo. <br><br>
+                Con tu colaboración, podremos instalar césped sintético y prolongar los años de actividad en el club. <br><br>
+                Cada metro cuadrado cuenta, y tu aporte permitirá que más chicos tengan la oportunidad de generar recuerdos inolvidables,
+                competir y crear amistades que durarán toda la vida. <br><br>
+                <b>¡Juntos podemos hacer la diferencia!</b>
+            </p>
+
         </div>
+    </div>
+    <div class="row px-4">
 
-        <div class="col-md-6 col-xs-12 mx-auto  px-4" style="height: 500px;overflow-y:scroll;">
-            @if($productos->isEmpty())
+
+        <div class="col-md-6 col-xs-12 mx-auto" style="height: 700px;overflow-y:scroll;    border: thin solid rgba(0, 0, 0, 0.12);padding: 0px;">
+            <div class="progress-container">
+                <div class="progress-bar" style="width: {{ $porcentajeVendidos }}%;">
+                    {{ $porcentajeVendidos }}% Vendido
+                </div>
+            </div>
+
+            <div class="text-center mt-3">
+                <p>{{ number_format($porcentajeVendidos, 2, ',', '.') }}% Completado</p>
+                <p>{{ $cantidadVendidos }} metros cuadrados <span class="badge bg-danger">VENDIDOS</span></p>
+                <p>{{ $cantidadDisponibles }} metros cuadrados <span class="badge bg-success">DISPONIBLES</span></p>
+            </div>
+
+            @if($data->isEmpty())
             <p>No hay productos disponibles.</p>
             @else
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th class="text-center">ID</th>
                         <th>Descripcion</th>
                         <!--<th>Nombre</th>
                         <th>Apellido</th>
@@ -52,31 +136,31 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($productos as $producto)
+                    @foreach($data as $d)
                     <tr>
-                        <td style="height:15px">{{ $producto->id }}</td>
-                        <td>{{ $producto->descripcion }}</td>
-                        <!--<td>{{ $producto->nombre }}</td>
-                            <td>{{ $producto->apellido }}</td>
-                            <td>{{ $producto->email }}</td>
-                            <td>{{ $producto->telefono }}</td>-->
-                        <td>$ {{ number_format($producto->precio, 2, ',', '.') }}</td>
+                        <td style="height:15px" class="text-center">{{ $d->id }}</td>
+                        <td>{{ $d->descripcion }}</td>
+                        <!--<td>{{ $d->nombre }}</td>
+                            <td>{{ $d->apellido }}</td>
+                            <td>{{ $d->email }}</td>
+                            <td>{{ $d->telefono }}</td>-->
+                        <td>$ {{ number_format($d->precio, 2, ',', '.') }}</td>
                         <td> <span class="badge
-                                    @if($producto->estado == 'DISPONIBLE')
+                                    @if($d->estado == 'DISPONIBLE')
                                         bg-success
                                     @else
                                         bg-danger
                                     @endif">
-                                {{ $producto->estado }}
+                                {{ $d->estado }}
                             </span>
                         <td>
-                            @if($producto->estado != 'VENDIDO')
+                            @if($d->estado != 'VENDIDO')
 
-                            <!--<a href="{{ route('productos.edit', $producto->id) }}" class="btn btn-warning btn-sm">Comprar</a>
+                            <!--<a href="{{ route('metros.edit', $d->id) }}" class="btn btn-warning btn-sm">Comprar</a>
 -->
-                            <a href="#" class="btn btn-warning btn-sm" onclick="editProduct({{ $producto->id }})">Comprar</a>
+                            <a class="btn btn-warning btn-sm" onclick="editProduct({{ $d->id }})">Comprar</a>
 
-                            <!--<form action="{{ route('productos.destroy', $producto->id) }}" method="POST" class="d-inline-block">
+                            <!--<form action="{{ route('metros.destroy', $d->id) }}" method="POST" class="d-inline-block">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
@@ -101,7 +185,7 @@
                         </div>
                         <div class="modal-body">
                             <!-- Aquí se cargará dinámicamente el formulario con los datos del producto -->
-                            <form id="editProductForm" action="{{ route('productos.update', $producto->id) }}">
+                            <form id="editProductForm" action="{{ route('metros.update', $d->id) }}">
                                 @csrf
 
                                 <div class="row">
@@ -113,17 +197,17 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label for="apellido" class="form-label">Apellido</label>
-                                        <input type="text" name="apellido" id="apellido" class="form-control">
+                                        <input type="text" name="apellido" id="apellido" class="form-control" required>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="email" class="form-label">Email</label>
-                                        <input type="text" name="email" id="email" class="form-control">
+                                        <input type="text" name="email" id="email" class="form-control" required>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="telefono" class="form-label">Teléfono</label>
-                                        <input type="text" name="telefono" id="telefono" class="form-control">
+                                        <input type="text" name="telefono" id="telefono" class="form-control" required>
                                     </div>
                                 </div>
                                 <!--<div class="row">
@@ -197,11 +281,11 @@
 
 <script>
     function editProduct(id) {
-        $('#editProductForm').attr('action', `/productos/${id}`);
+        $('#editProductForm').attr('action', `/metros/${id}`);
         $('#editProductModal').modal('show');
         // Realiza una petición AJAX para obtener los datos del producto por ID
         /*$.ajax({
-            url: `/productos/${id}/edit`, // Ruta para obtener los datos del producto
+            url: `/metros/${id}/edit`, // Ruta para obtener los datos del producto
             method: 'GET',
             success: function(data) {
                 // Rellena los campos del formulario con los datos recibidos
@@ -213,7 +297,7 @@
                 $('#estado').val(data.estado);
 
                 // Actualiza la acción del formulario con la URL correcta para el update
-                $('#editProductForm').attr('action', `/productos/${id}`);
+                $('#editProductForm').attr('action', `/metros/${id}`);
 
                 // Abre el modal
                 $('#editProductModal').modal('show');
@@ -257,7 +341,7 @@
             //console.log(formData);
 
             $.ajax({
-                url: `/productos-pago/${productId}`,
+                url: `/metros-pago/${productId}`,
                 method: 'POST',
                 //data: formData,
                 data: formDataObject,

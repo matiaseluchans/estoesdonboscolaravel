@@ -13,18 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('productos', function (Blueprint $table) {
+        Schema::create('metros', function (Blueprint $table) {
             $table->id();
             $table->string('descripcion')->nullable();
             $table->string('precio')->nullable();
             $table->string('estado')->nullable();
-            
+
             $table->string('nombre')->nullable();
             $table->string('apellido')->nullable();
             $table->string('email')->nullable();
             $table->string('telefono')->nullable();
             $table->longText('data')->nullable();
-           
+
             $table->timestamps();
             $table->softDeletes();
         });

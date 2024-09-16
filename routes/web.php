@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\MetrosController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -45,13 +45,16 @@ Route::get('/contacto', function () {
 
 
 
-Route::resource('productos', ProductoController::class);
-Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
+Route::resource('metros', MetrosController::class);
+Route::get('/metros', [MetrosController::class, 'index'])->name('metros.index');
 
-//Route::post('/productos/{id}/pago', [ProductoController::class, 'crearPago'])->name('productos.pago');
+//Route::post('/productos/{id}/pago', [MetrosController::class, 'crearPago'])->name('productos.pago');
 
 
-Route::post('/productos-pago/{id}', [ProductoController::class, 'createPayment']);
-Route::get('/productos/{id}/success', [ProductoController::class, 'success'])->name('productos.success');
-Route::get('/productos/failure', [ProductoController::class, 'failure'])->name('productos.failure');
-Route::get('/productos/pending', [ProductoController::class, 'pending'])->name('productos.pending');
+Route::post('/metros-pago/{id}', [MetrosController::class, 'createPayment']);
+Route::get('/metros/{id}/success', [MetrosController::class, 'success'])->name('metros.success');
+Route::get('/metros/failure', [MetrosController::class, 'failure'])->name('metros.failure');
+Route::get('/metros/pending', [MetrosController::class, 'pending'])->name('metros.pending');
+
+
+Route::get('/mail-test', [MetrosController::class, 'mailTest'])->name('metros.mailTest');

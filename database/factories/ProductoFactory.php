@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Producto;
+use App\Models\Metro;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductoFactory extends Factory

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Producto;
+use App\Models\Metro;
 use Illuminate\Http\Request;
 
 use MercadoPago\SDK;
