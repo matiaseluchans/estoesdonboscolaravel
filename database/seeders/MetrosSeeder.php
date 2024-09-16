@@ -3,10 +3,10 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Producto;
+use App\Models\Metro;
 use Illuminate\Support\Facades\DB;
 
-class ProductoSeeder extends Seeder
+class MetrosSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,11 +15,9 @@ class ProductoSeeder extends Seeder
      */
     public function run()
     {
-        // Crear 6000 productos
-        //Producto::factory()->count(6000)->create();
 
         for ($i = 1; $i <= 10000; $i++) {
-            DB::table('productos')->insert([
+            DB::table('metros')->insert([
                 'descripcion' => "metro N° " . $i,
                 /*'nombre' => $this->faker->firstName(),
                 'apellido' => $this->faker->lastName(),

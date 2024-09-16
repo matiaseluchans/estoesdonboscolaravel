@@ -156,11 +156,11 @@
                         <td>
                             @if($producto->estado != 'VENDIDO')
 
-                            <!--<a href="{{ route('productos.edit', $producto->id) }}" class="btn btn-warning btn-sm">Comprar</a>
+                            <!--<a href="{{ route('metros.edit', $producto->id) }}" class="btn btn-warning btn-sm">Comprar</a>
 -->
-                            <a href="#" class="btn btn-warning btn-sm" onclick="editProduct({{ $producto->id }})">Comprar</a>
+                            <a class="btn btn-warning btn-sm" onclick="editProduct({{ $producto->id }})">Comprar</a>
 
-                            <!--<form action="{{ route('productos.destroy', $producto->id) }}" method="POST" class="d-inline-block">
+                            <!--<form action="{{ route('metros.destroy', $producto->id) }}" method="POST" class="d-inline-block">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
@@ -185,7 +185,7 @@
                         </div>
                         <div class="modal-body">
                             <!-- Aquí se cargará dinámicamente el formulario con los datos del producto -->
-                            <form id="editProductForm" action="{{ route('productos.update', $producto->id) }}">
+                            <form id="editProductForm" action="{{ route('metros.update', $producto->id) }}">
                                 @csrf
 
                                 <div class="row">
@@ -281,11 +281,11 @@
 
 <script>
     function editProduct(id) {
-        $('#editProductForm').attr('action', `/productos/${id}`);
+        $('#editProductForm').attr('action', `/metros/${id}`);
         $('#editProductModal').modal('show');
         // Realiza una petición AJAX para obtener los datos del producto por ID
         /*$.ajax({
-            url: `/productos/${id}/edit`, // Ruta para obtener los datos del producto
+            url: `/metros/${id}/edit`, // Ruta para obtener los datos del producto
             method: 'GET',
             success: function(data) {
                 // Rellena los campos del formulario con los datos recibidos
@@ -297,7 +297,7 @@
                 $('#estado').val(data.estado);
 
                 // Actualiza la acción del formulario con la URL correcta para el update
-                $('#editProductForm').attr('action', `/productos/${id}`);
+                $('#editProductForm').attr('action', `/metros/${id}`);
 
                 // Abre el modal
                 $('#editProductModal').modal('show');
@@ -341,7 +341,7 @@
             //console.log(formData);
 
             $.ajax({
-                url: `/productos-pago/${productId}`,
+                url: `/metros-pago/${productId}`,
                 method: 'POST',
                 //data: formData,
                 data: formDataObject,

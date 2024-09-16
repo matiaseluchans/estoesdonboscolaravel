@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Producto;
+use App\Models\Metro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -16,7 +16,7 @@ use App\Mail\TransactionStatusMail;
 use Illuminate\Support\Facades\Mail;
 
 
-class ProductoController extends Controller
+class MetrosController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +26,7 @@ class ProductoController extends Controller
     public function index()
     {
         // Obtener todos los productos
-        $productos = Producto::orderByRaw('estado = "DISPONIBLE" DESC')
+        $productos = Metro::orderByRaw('estado = "DISPONIBLE" DESC')
             ->orderBy('id')
             ->get();
 
@@ -37,8 +37,8 @@ class ProductoController extends Controller
         $porcentajeVendidos = ($cantidadVendidos / $cantidadTotal) * 100;
 
         // Pasamos las variables a la vista
-        // return view('productos.index', compact('cantidadVendidos', 'cantidadDisponibles', 'porcentajeVendidos'));
-        return view('productos.index', [
+        // return view('metros.index', compact('cantidadVendidos', 'cantidadDisponibles', 'porcentajeVendidos'));
+        return view('metros.index', [
             'productos' => $productos,
             'cantidadVendidos' => $cantidadVendidos,
             'cantidadDisponibles' => $cantidadDisponibles,
@@ -54,7 +54,7 @@ class ProductoController extends Controller
     public function create()
     {
         // Si tienes una vista para crear productos
-        return view('productos.create');
+        return view('metros.create');
     }
 
     /**
@@ -79,7 +79,7 @@ class ProductoController extends Controller
         ]);
 
         // Crear el producto
-        $producto = Producto::create($validatedData);
+        $producto = Metro::create($validatedData);
 
         return response()->json(['message' => 'Producto creado con éxito', 'producto' => $producto]);
     }
@@ -87,7 +87,7 @@ class ProductoController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Producto  $producto
+     * @param  \App\Models\Metro  $producto
      * @return \Illuminate\Http\Response
      */
     public function show(Producto $producto)
@@ -99,19 +99,19 @@ class ProductoController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Producto  $producto
+     * @param  \App\Models\Metro  $producto
      * @return \Illuminate\Http\Response
      */
     /*    public function edit(Producto $producto)
     {
         // Si tienes una vista para editar productos
-        return view('productos.edit', compact('producto'));
+        return view('metros.edit', compact('producto'));
     }
 */
 
     public function edit($id)
     {
-        $producto = Producto::find($id);
+        $producto = Metro::find($id);
 
         return response()->json($producto); // Devuelve los datos del producto en formato JSON
     }
@@ -119,7 +119,7 @@ class ProductoController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Producto  $producto
+     * @param  \App\Models\Metro  $producto
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Producto $producto)
@@ -142,14 +142,14 @@ class ProductoController extends Controller
             $producto->update($validatedData);
 
             // Redirigir al index con un mensaje de éxito
-            // return redirect()->route('productos.index')->with('success', 'Los datos se guardaron con éxito.');
+            // return redirect()->route('metros.index')->with('success', 'Los datos se guardaron con éxito.');
             return response()->json([
                 'success' => true,
                 'message' => 'Operación exitosa. El producto ha sido actualizado.'
             ]);
         } catch (\Exception $e) {
             // Si ocurre algún error, redirigir a la vista de edición con un mensaje de error
-            //return redirect()->route('productos.edit', $producto->id)->with('error', 'Revisa tus datos. No pudimos actualizar la información.');
+            //return redirect()->route('metros.edit', $producto->id)->with('error', 'Revisa tus datos. No pudimos actualizar la información.');
             return response()->json([
                 'success' => false,
                 'message' => 'Error al registrar la compra: ' . $e->getMessage()
@@ -160,12 +160,12 @@ class ProductoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Producto  $producto
+     * @param  \App\Models\Metro  $producto
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Producto $producto)
+    public function destroy(Metro $producto)
     {
-        // Eliminar el producto (soft delete)
+        // Eliminar el Metro (soft delete)
         //$producto->delete();
 
         return response()->json(['message' => 'Producto eliminado con éxito']);
@@ -177,8 +177,8 @@ class ProductoController extends Controller
         // Inicializar SDK de Mercado Pago
         SDK::setAccessToken(env('MERCADO_PAGO_ACCESS_TOKEN'));
 
-        // Buscar el producto
-        $producto = Producto::find($id);
+        // Buscar el Metro
+        $producto = Metro::find($id);
 
         // Crear preferencia de pago
         $preference = new Preference();
@@ -203,9 +203,9 @@ class ProductoController extends Controller
 
         // URLs de retorno
         $preference->back_urls = [
-            'success' => route('productos.success', ['id' => $id]),
-            'failure' => route('productos.failure', ['id' => $id]),
-            'pending' => route('productos.pending', ['id' => $id]),
+            'success' => route('metros.success', ['id' => $id]),
+            'failure' => route('metros.failure', ['id' => $id]),
+            'pending' => route('metros.pending', ['id' => $id]),
         ];
 
         $preference->auto_return = 'approved';
@@ -220,12 +220,12 @@ class ProductoController extends Controller
     public function success(Request $request, $id)
     {
         // Actualizar el estado del producto a 'VENDIDO'
-        $producto = Producto::find($id);
+        $producto = Metro::find($id);
         $producto->estado = 'VENDIDO';
         $producto->save();
 
         // Redirigir con mensaje de éxito
-        return redirect()->route('productos.index')->with('success', 'Producto comprado exitosamente.');
+        return redirect()->route('metros.index')->with('success', 'Producto comprado exitosamente.');
     }*/
 
     public function __construct()
@@ -236,7 +236,7 @@ class ProductoController extends Controller
 
     public function createPayment(Request $request, $id)
     {
-        $producto = Producto::findOrFail($id);
+        $producto = Metro::findOrFail($id);
         $preference = new Preference();
 
         // Crear el objeto de item
@@ -274,9 +274,9 @@ class ProductoController extends Controller
 
         // Configuración de las URLs de retorno
         $preference->back_urls = [
-            "success" => route('productos.success', $id),
-            "failure" => route('productos.failure', $id),
-            "pending" => route('productos.pending', $id)
+            "success" => route('metros.success', $id),
+            "failure" => route('metros.failure', $id),
+            "pending" => route('metros.pending', $id)
         ];
         $preference->auto_return = "approved";
 
@@ -294,7 +294,7 @@ class ProductoController extends Controller
         //Log::info($logrequests);
 
         // Obtén el producto
-        $producto = Producto::findOrFail($id);
+        $producto = Metro::findOrFail($id);
 
         // Verifica la información de la transacción desde el request
         $payment_status = $request->input('status'); // Estado del pago
@@ -364,13 +364,13 @@ class ProductoController extends Controller
 
 
         // Redirige a la página principal con un mensaje de éxito
-        return redirect()->route('productos.index')->with('success', '¡La compra del Metro N° ' . $id . ' se realizó con éxito!');
+        return redirect()->route('metros.index')->with('success', '¡La compra del Metro N° ' . $id . ' se realizó con éxito!');
     }
 
 
     public function failure(Request $request, $id)
     {
-        $producto = Producto::findOrFail($id);
+        $producto = Metro::findOrFail($id);
 
         // Verifica la información de la transacción desde el request
         $payment_status = $request->input('status'); // Estado del pago
@@ -411,13 +411,13 @@ class ProductoController extends Controller
 
 
         // Mensaje de fallo en la sesión
-        return redirect()->route('productos.index')->with('error', 'La compra del Metro N° ' . $id . ' no se pudo completarse. Inténtalo nuevamente.');
+        return redirect()->route('metros.index')->with('error', 'La compra del Metro N° ' . $id . ' no se pudo completarse. Inténtalo nuevamente.');
     }
 
     public function pending(Request $request, $id)
     {
 
-        $producto = Producto::findOrFail($id);
+        $producto = Metro::findOrFail($id);
 
         // Verifica la información de la transacción desde el request
         $payment_status = $request->input('status'); // Estado del pago
@@ -458,7 +458,7 @@ class ProductoController extends Controller
             ->send(new TransactionStatusMail($data));
 
         // Mensaje de pendiente en la sesión
-        return redirect()->route('productos.index')->with('info', 'La compra del Metro N° ' . $id . ' está pendiente. Espera la confirmación.');
+        return redirect()->route('metros.index')->with('info', 'La compra del Metro N° ' . $id . ' está pendiente. Espera la confirmación.');
     }
 
     public function handleNotification($id, Request $request)
@@ -467,7 +467,7 @@ class ProductoController extends Controller
         // Por ejemplo, actualizar el estado del producto y guardar la información del pago
 
         // Ejemplo de actualización del producto
-        $producto = Producto::findOrFail($id);
+        $producto = Metro::findOrFail($id);
         $producto->estado = 'VENDIDO';
         $producto->save();
 
