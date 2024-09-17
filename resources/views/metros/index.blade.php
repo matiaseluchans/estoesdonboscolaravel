@@ -218,7 +218,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label for="email" class="form-label">Email</label>
-                                        <input type="text" name="email" id="email" class="form-control" required>
+                                        <input type="email" name="email" id="email" class="form-control" required>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="telefono" class="form-label">Teléfono</label>
