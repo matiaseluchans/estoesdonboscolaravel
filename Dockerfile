@@ -14,6 +14,9 @@ RUN docker-php-ext-install pdo pdo_mysql
 
 WORKDIR /app
 COPY . /app
+
+RUN --mount=type=secret,id=DB_PASSWORD \
+    sed -i "s,DB_PASSWORD=,DB_PASSWORD=$(cat /run/secrets/DB_PASSWORD),g" .env.example
 RUN mv .env.example .env
 
 RUN composer install
@@ -25,5 +28,6 @@ EXPOSE 8000
 RUN php artisan key:generate
 RUN chown -R donbosco:www-data storage
 RUN chown -R donbosco:www-data bootstrap/cache
+
 USER donbosco
 CMD php artisan config:cache && php artisan serve --host=0.0.0.0 --port=8000
