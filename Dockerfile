@@ -18,7 +18,7 @@ COPY . /app
 RUN --mount=type=secret,id=DB_PASSWORD \
     sed -i "s,DB_PASSWORD=,DB_PASSWORD=$(cat /run/secrets/DB_PASSWORD),g" .env.example
 
-RUN sed -i "s,APP_ENV=,APP_ENV=production,g" .env.example
+RUN sed -i "s,APP_ENV=local,APP_ENV=production,g" .env.example
 RUN mv .env.example .env
 
 RUN composer install
