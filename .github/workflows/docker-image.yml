@@ -56,3 +56,5 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
             BUILDKIT_PROGRESS=plain
+          secrets: |          
+            "DB_PASSWORD=${{ secrets.DB_PASSWORD }}"
