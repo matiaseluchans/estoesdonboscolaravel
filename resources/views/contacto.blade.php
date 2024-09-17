@@ -83,7 +83,9 @@
     </div>
 </div>
 <script>
-    document.getElementsByName('_next')[0].value = window.location.origin + "/contact.html?success=true"
+    var contactUrl = "{{ route('contacto', ['success' => 'true']) }}";
+    document.getElementsByName('_next')[0].value = contactUrl;
+    // document.getElementsByName('_next')[0].value = window.location.origin + "/contact.html?success=true"
 
     const currentUrl = window.location.href;
 
