@@ -87,18 +87,32 @@
 <div class="container-fluid service overflow-hidden py-5">
     <div class="row px-4">
 
-        <div class="col-md-12 col-xs-12">
+        <div class="col-md-6 col-xs-12 mx-auto">
 
 
-            <!--<h5 class="sub-title pe-3">¿Cómo lo vamos a hacer?</h5>
-<h1 class="display-5 mb-4"> La Historia Detrás del Proyecto 11deSINTÉTICO</h1>-->
+            <h5 class="sub-title pe-3">¡Sumate!</h5>
+            <h1 class="display-5 mb-4">Un proyecto que transforma vidas y dará increíbles sorteos!</h1>
             <p class="mb-4">
-                <b>¡Sumate a un proyecto que transforma vidas!</b> Ayudanos a convertir nuestra cancha en un espacio profesional,
-                donde los chicos puedan disfrutar del fútbol y seguir creciendo en un ambiente seguro y competitivo. <br><br>
-                Con tu colaboración, podremos instalar césped sintético y prolongar los años de actividad en el club. <br><br>
-                Cada metro cuadrado cuenta, y tu aporte permitirá que más chicos tengan la oportunidad de generar recuerdos inolvidables,
-                competir y crear amistades que durarán toda la vida. <br><br>
-                <b>¡Juntos podemos hacer la diferencia!</b>
+
+
+                Estamos trabajando para convertir nuestra cancha en un espacio profesional, donde los chicos puedan disfrutar del fútbol y seguir creciendo en un entorno seguro y competitivo. Con tu colaboración, podremos instalar césped sintético,
+                lo que nos permitirá extender los años de actividad en el club, dando a más chicos la oportunidad de seguir jugando y formándose.<br>
+
+                Cada metro cuadrado cuenta, y con tu aporte no solo estarás ayudando a mejorar nuestro espacio, sino que también tendrás la oportunidad
+                de participar en espectaculares sorteos. <br>Si alcanzamos los siguientes objetivos, los premios serán:<br><br>
+
+                &ensp; &ensp; &ensp; &ensp; &ensp; <b>1.000 colaboradores:</b> Sorteo de un televisor de última generación.<br>
+                &ensp; &ensp; &ensp; &ensp; &ensp; <b>3.000 colaboradores:</b> Sorteo de un juego de living completo.<br>
+                &ensp; &ensp; &ensp; &ensp; &ensp; <b>6.000 colaboradores:</b> Sorteo de un 0 km.<br><br>
+                Cada colaboración es una oportunidad más para transformar vidas, crear recuerdos inolvidables,
+                y hacer que nuestros jóvenes crezcan en un ambiente que fomente la competencia sana y la amistad.
+                <br><br>
+                Tu aporte no solo cambia el futuro del club, sino que también te da la chance de ganar grandes premios.
+                <br><br>
+                <b>
+
+                    ¡Juntos podemos hacer la diferencia!
+                </b>
             </p>
 
         </div>
@@ -145,7 +159,7 @@
                             <td>{{ $d->apellido }}</td>
                             <td>{{ $d->email }}</td>
                             <td>{{ $d->telefono }}</td>-->
-                        <td>$ {{ number_format($d->precio, 2, ',', '.') }}</td>
+                        <td>$ {{ number_format($d->precio, 0, ',', '.') }}</td>
                         <td> <span class="badge
                                     @if($d->estado == 'DISPONIBLE')
                                         bg-success
@@ -240,6 +254,27 @@
             <!--modal-->
 
             @endif
+        </div>
+
+        <div class="row px-4">
+
+            <div class="col-md-6 col-xs-12 mx-auto">
+
+
+                <!--<h5 class="sub-title pe-3">¿Cómo lo vamos a hacer?</h5>
+<h1 class="display-5 mb-4"> La Historia Detrás del Proyecto 11deSINTÉTICO</h1>-->
+                <p class="mb-4 mt-4">
+                    El sorteo se llevará a cabo una vez que alcancemos el número de colaboradores necesario para cada premio.
+                    <br>Los sorteos se realizarán en un evento especial que tendrá lugar en nuestra cancha,
+                    ubicada en <b>[dirección del club]</b>, el día <b>[fecha del sorteo]</b>, a las <b>[hora del sorteo]</b>.<br><br>
+
+                    El evento será transmitido en vivo a través de nuestras redes sociales, para que todos puedan seguirlo desde sus casas.
+                    <br><br>Además, se notificará a los ganadores por email y teléfono.
+
+                    <br><br><b>¡No te pierdas esta oportunidad de colaborar y ganar!</b>
+                </p>
+
+            </div>
         </div>
     </div>
 </div>
