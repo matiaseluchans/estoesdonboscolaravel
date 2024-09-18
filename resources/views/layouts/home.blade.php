@@ -8,11 +8,36 @@
             <li data-bs-target="#carouselId" data-bs-slide-to="1"></li>
             <li data-bs-target="#carouselId" data-bs-slide-to="2"></li>
             <li data-bs-target="#carouselId" data-bs-slide-to="3"></li>
+            <li data-bs-target="#carouselId" data-bs-slide-to="4"></li>
+            <li data-bs-target="#carouselId" data-bs-slide-to="5"></li>
 
         </ol>
         <div class="carousel-inner" role="listbox">
 
-            <div class="carousel-item active ">
+
+            <div class="carousel-item active">
+                <img src="img/cancha2.jpeg" class="img-fluid" alt="Image">
+                <div class="carousel-caption">
+                    <div class="text-center p-4" style="max-width: 900px;">
+
+                        <h1 class="display-4 text-white mb-3 mb-md-4">¡Colaborando participás de increíbles sorteos!</h1>
+
+                        <a class="btn btn-warning flash border-secondary rounded-pill text-white py-3 px-5" href="{{ route('metros.index') }}">Colaborá</a>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="img/cancha2.jpeg" class="img-fluid" alt="Image">
+                <div class="carousel-caption">
+                    <div class="text-center p-4" style="max-width: 900px;">
+
+                        <h1 class="display-4 text-white mb-3 mb-md-4">Colaborá con un M2</h1>
+
+                        <a class="btn btn-warning flash border-secondary rounded-pill text-white py-3 px-5" href="{{ route('metros.index') }}">Colaborá</a>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item  ">
                 <img src="img/cancha-squad.jpeg" class="img-fluid" alt="Image">
 
                 <div class="carousel-caption">

@@ -79,9 +79,13 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <div class="container-fluid bg-breadcrumb">
-    <div class="container text-center py-5" style="max-width: 900px;">
-        <h3 class="text-white display-3 mb-4 wow fadeInDown" data-wow-delay="0.1s">Colabora con un M<sup>2</sup></h1>
+    <div class="container text-center pt-2 pb-2" style="max-width: 900px;">
+        <h3 class="text-white display-3 mb-4 wow fadeInDown" data-wow-delay="0.1s">Colaborá con un M<sup>2</sup> </h1>
+            <div class="text-center my-3">
+                <a class="btn btn-warning btn-lg flash" onclick="editProduct(1)">Obtené tu M<sup>2 </sup></a>
+                <p class="pb-0 mb-0" style="color:white;font-size:20px;margin-top:30px">Al realizar tu colaboración se te asignarán 2 números válidos para cada uno de los sorteos.</p>
 
+            </div>
     </div>
 </div>
 <div class="container-fluid service overflow-hidden py-5">
@@ -90,29 +94,41 @@
         <div class="col-md-6 col-xs-12 mx-auto">
 
 
-            <h5 class="sub-title pe-3">¡Sumate!</h5>
-            <h1 class="display-5 mb-4">Un proyecto que transforma vidas y dará increíbles sorteos!</h1>
-            <p class="mb-4">
+            <h5 class="pe-3 text-center display-24">Cada vez falta menos para tanto!</h5>
+
+            <div class="progress-container mt-4" style="">
+                <div class="progress-bar" style="width: {{ $porcentajeVendidos }}%;">
+                    {{ $porcentajeVendidos }}% Completado
+                </div>
+            </div>
+
+            <div class="text-center mt-3">
+                <p style="font-size: 18px; font-weight: 900;">{{ number_format($porcentajeVendidos, 2, ',', '.') }}% Completado</p>
+                <!--<p>{{ $cantidadVendidos }} metros cuadrados <span class="badge bg-danger">VENDIDOS</span></p>
+                <p>{{ $cantidadDisponibles }} metros cuadrados <span class="badge bg-success">DISPONIBLES</span></p>
+-->
+            </div>
+            <h1 class="display-5 mb-4 text-center">¡Colaborando participás de increíbles sorteos!</h1>
+
+            <div class="rounded text-center mx-auto">
+                <!--
+                                <img src="img/ecko.jpeg" class="" style="border-radius:20px;margin-bottom: -7px;height:550px;" alt="Image">
+                                -->
+                <img src="img/auto.png" class="text-center" style="border-radius:20px;" alt="Image" width="600">
+
+            </div>
+            <p class="mb-4 " ">
 
 
-                Estamos trabajando para convertir nuestra cancha en un espacio profesional, donde los chicos puedan disfrutar del fútbol y seguir creciendo en un entorno seguro y competitivo. Con tu colaboración, podremos instalar césped sintético,
-                lo que nos permitirá extender los años de actividad en el club, dando a más chicos la oportunidad de seguir jugando y formándose.<br>
+            <ul class=" mx-auto" style="width:500px">
+                <li><b>7 de diciembre 2024 - Sorteo de un televisor de última generación.</b></li>
 
-                Cada metro cuadrado cuenta, y con tu aporte no solo estarás ayudando a mejorar nuestro espacio, sino que también tendrás la oportunidad
-                de participar en espectaculares sorteos. <br>Si alcanzamos los siguientes objetivos, los premios serán:<br>
-            <ul>
-                <li><b>1.000 colaboradores: Sorteo de un televisor de última generación.</b></li>
-                <li><b>2.000 colaboradores: Sorteo de un juego de living completo.</b></li>
-                <li><b>3.000 colaboradores: Sorteo de una moto eléctrica.</b></li>
-                <li><b>4.000 colaboradores: Sorteo de una PlayStation 5.</b></li>
-                <li><b>5.000 colaboradores: Sorteo de un auto.</b></li>
-            </ul>
-            Tu aporte no solo cambia el futuro del club, sino que también te da la chance de ganar grandes premios.
-            <br><br>
-            <b>
+                <li><b>28 de febrero 2025 - Sorteo de un juego de living completo.</b></li>
+                <li><b>26 de marzo 2025 - Sorteo de una moto eléctrica.</b></li>
+                <li><b>28 de mayo 2025 - Sorteo de una PlayStation 5.</b></li>
+                <li><b>5 de julio 2025 - Sorteo de un auto 0 km.</b></li>
+                </ul>
 
-                ¡Juntos podemos hacer la diferencia!
-            </b>
             </p>
 
         </div>
@@ -120,19 +136,21 @@
     <div class="row px-4">
 
 
+        <!--
         <div class="col-md-6 col-xs-12 mx-auto" style="height: 700px;overflow-y:scroll;    border: thin solid rgba(0, 0, 0, 0.12);padding: 0px;">
-            <div class="progress-container">
-                <div class="progress-bar" style="width: {{ $porcentajeVendidos }}%;">
-                    {{ $porcentajeVendidos }}% Vendido
-                </div>
+-->
+        <div class="col-md-6 col-xs-12 mx-auto">
+            <div class="text-center my-3">
+                <a class="btn btn-warning btn-lg flash" onclick="editProduct(1)">Obtené tu M<sup>2 </sup></a>
+                <p class="" style="margin-top:7%">Al realizar tu colaboración se te asignarán 2 números válidos para cada uno de los sorteos.</p>
+                <a href="/bases" styles="color:blue;">Bases y condiciones de los sorteos</a>
+
             </div>
 
-            <div class="text-center mt-3">
-                <p>{{ number_format($porcentajeVendidos, 2, ',', '.') }}% Completado</p>
-                <p>{{ $cantidadVendidos }} metros cuadrados <span class="badge bg-danger">VENDIDOS</span></p>
-                <p>{{ $cantidadDisponibles }} metros cuadrados <span class="badge bg-success">DISPONIBLES</span></p>
-            </div>
 
+
+
+            <!--
             @if($data->isEmpty())
             <p>No hay productos disponibles.</p>
             @else
@@ -141,10 +159,6 @@
                     <tr>
                         <th width="40" class="text-center"> ID</th>
                         <th>Tickets</th>
-                        <!--<th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Email</th>
-                        <th>Teléfono</th>-->
                         <th>Precio</th>
                         <th width="70">Estado</th>
                         <th>Acciones</th>
@@ -155,10 +169,6 @@
                     <tr>
                         <td style="height:13px" class="text-center">{{ $d->id }}</td>
                         <td>{{ $d->descripcion }}</td>
-                        <!--<td>{{ $d->nombre }}</td>
-                            <td>{{ $d->apellido }}</td>
-                            <td>{{ $d->email }}</td>
-                            <td>{{ $d->telefono }}</td>-->
                         <td>$ {{ number_format($d->precio, 0, ',', '.') }}</td>
                         <td> <span class="badge
                                     @if($d->estado == 'DISPONIBLE')
@@ -171,15 +181,9 @@
                         <td>
                             @if($d->estado != 'VENDIDO')
 
-                            <!--<a href="{{ route('metros.edit', $d->id) }}" class="btn btn-warning btn-sm">Comprar</a>
--->
                             <a class="btn btn-warning btn-sm" onclick="editProduct({{ $d->id }})">Colabora</a>
 
-                            <!--<form action="{{ route('metros.destroy', $d->id) }}" method="POST" class="d-inline-block">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
-                                </form>-->
+
                             @endif
 
                         </td>
@@ -187,7 +191,7 @@
                     @endforeach
                 </tbody>
             </table>
-
+-->
 
             <!--modal-->
             <!-- Modal -->
@@ -242,8 +246,10 @@
                                 </div>-->
                                 <hr>
                                 <div class="row mt-3">
+                                    <p class="mt-2" style="color:black">Al realizar tu colaboración se te asignarán 2 números válidos para cada uno de los sorteos.</p>
+
                                     <div class="col-md-12 text-end">
-                                        <button type="button" id="mp-button" class="btn btn-primary">Registrar compra</button>
+                                        <button type="button" id="mp-button" class="btn btn-primary">Realizar Pago</button>
                                     </div>
                                 </div>
                             </form>
@@ -261,9 +267,8 @@
             <div class="col-md-6 col-xs-12 mx-auto">
 
 
-                <!--<h5 class="sub-title pe-3">¿Cómo lo vamos a hacer?</h5>
-<h1 class="display-5 mb-4"> La Historia Detrás del Proyecto 11deSINTÉTICO</h1>-->
-                <p class="mb-4 mt-4">
+
+                <!--<p class="mb-4 mt-4">
                     El sorteo se llevará a cabo una vez que alcancemos el número de colaboradores necesario para cada premio.
                     <br>Los sorteos se realizarán en un evento especial que tendrá lugar en nuestra cancha,
                     ubicada en <b>[dirección del club]</b>, el día <b>[fecha del sorteo]</b>, a las <b>[hora del sorteo]</b>.<br><br>
@@ -272,7 +277,7 @@
                     <br><br>Además, se notificará a los ganadores por email y teléfono.
 
                     <br><br><b>¡No te pierdas esta oportunidad de colaborar y ganar!</b>
-                </p>
+                </p>-->
 
             </div>
         </div>

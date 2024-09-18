@@ -127,9 +127,9 @@
                     <a href="{{ route('metros.index') }}" class="text-center nav-item nav-link {{ Request::is('metros*') ? 'active' : '' }}"><span class="badge bg-warning" style="font-size: 16px;">Colaborar <br>con M<sup>2</sup></span></a>
                     <a href="{{ route('home') }}#proyecto" class="text-center nav-item nav-link">Proyecto</a>
                     <a href=" {{ route('ecko') }}" class="text-center nav-item nav-link {{ Request::is('ecko') ? 'active' : '' }}">Ecko</a>
-                    <a href="{{ route('colabora') }}" class="text-center nav-item nav-link botonesDePago {{ Request::is('colabora') ? 'active' : '' }}">
+                    <!--<a href="{{ route('colabora') }}" class="text-center nav-item nav-link botonesDePago {{ Request::is('colabora') ? 'active' : '' }}">
                         <span class="badge bg-warning" style="font-size: 16px;">Colaborá</span>
-                    </a>
+                    </a>-->
                     <a href="{{ route('iniciativas') }}" class="text-center nav-item nav-link {{ Request::is('iniciativas') ? 'active' : '' }}">Iniciativas</a>
                     <a href="{{ route('sponsors') }}" class="text-center nav-item nav-link {{ Request::is('sponsors') ? 'active' : '' }}">Sponsors</a>
                     <a href="{{ route('comision') }}" class="text-center nav-item nav-link {{ Request::is('comision') ? 'active' : '' }}">Comisión</a>
@@ -167,10 +167,14 @@
 
     <!-- Back to Top -->
     <div class="botonesDePago">
-        <button type="button" class="btn-flotante flash btn btn-warning btn-lg-square fixed-bottom-right" style="margin-bottom: 60px;" data-bs-toggle="modal" data-bs-target="#donationModal">
+        <!--<button type="button" class="btn-flotante flash btn btn-warning btn-lg-square fixed-bottom-right" style="margin-bottom: 60px;" data-bs-toggle="modal" data-bs-target="#donationModal">
             <i class="fa fa-dollar-sign" style="zoom:2;color:#fff"></i>
             <span class="text" style="color:#fff"></span>
-        </button>
+        </button>-->
+        <a href="{{ route('metros.index') }}" type="button" class="btn-flotante flash btn btn-warning btn-lg-square fixed-bottom-right" style="margin-bottom: 60px;">
+            <i class="fa fa-dollar-sign" style="zoom:2;color:#fff"></i>
+            <span class="text" style="color:#fff"></span>
+        </a>
         <div class="modal fade" id="donationModal" tabindex="-1" aria-labelledby="donationModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
