@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\MetrosController;
+use App\Http\Controllers\LogViewerController;
+use  App\Http\Controllers\Auth\LoginController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -60,3 +62,17 @@ Route::get('/metros/pending', [MetrosController::class, 'pending'])->name('metro
 Route::get('/mail-test', [MetrosController::class, 'mailTest'])->name('metros.mailTest');
 
 Route::post('/mercadopago/webhook', [MetrosController::class, 'handleWebhook'])->name('webhook.mercadopago');
+
+
+
+
+Route::get('/log-viewer', [LogViewerController::class, 'index'])->middleware('auth');
+
+Route::get('/metros-vendidos', [MetrosController::class, 'vendidos'])->middleware('auth');
+
+
+// Mostrar el formulario de login
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+
+// Procesar el inicio de sesión
+Route::post('/login', [LoginController::class, 'login']);

@@ -575,4 +575,28 @@ class MetrosController extends Controller
         // Responder a Mercado Pago para confirmar la recepción de la notificación
         return response()->json(['status' => 'success'], 200);
     }
+
+
+    public function vendidos()
+    {
+        // Obtener todos los productos
+        $data = Metro::orderByRaw('estado = "VENDIDOS" DESC')
+            ->orderBy('id')
+            ->get();
+
+        $cantidadTotal = $data->count();
+        $cantidadVendidos = $data->where('estado', 'VENDIDO')->count();
+        $cantidadDisponibles = $cantidadTotal - $cantidadVendidos;
+
+        $porcentajeVendidos = ($cantidadVendidos / $cantidadTotal) * 100;
+
+        // Pasamos las variables a la vista
+        // return view('metros.index', compact('cantidadVendidos', 'cantidadDisponibles', 'porcentajeVendidos'));
+        return view('metros.vendidos', [
+            'data' => $data,
+            'cantidadVendidos' => $cantidadVendidos,
+            'cantidadDisponibles' => $cantidadDisponibles,
+            'porcentajeVendidos' => $porcentajeVendidos,
+        ]);
+    }
 }
