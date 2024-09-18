@@ -36,7 +36,7 @@
 <body>
 
     <div class="container">
-        <h1 class="my-4">Laravel Log Viewer</h1>
+        <h1 class="my-4">Visualizador de Log</h1>
 
         <div class="card">
             <div class="card-header bg-dark text-white">
