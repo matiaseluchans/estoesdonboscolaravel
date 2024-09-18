@@ -58,3 +58,5 @@ Route::get('/metros/pending', [MetrosController::class, 'pending'])->name('metro
 
 
 Route::get('/mail-test', [MetrosController::class, 'mailTest'])->name('metros.mailTest');
+
+Route::post('/mercadopago/webhook', [MetrosController::class, 'handleWebhook'])->name('webhook.mercadopago');

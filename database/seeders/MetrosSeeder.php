@@ -16,16 +16,15 @@ class MetrosSeeder extends Seeder
     public function run()
     {
 
-        for ($i = 1; $i <= 10000; $i++) {
+        for ($i = 1; $i <= 10000; $i += 2) {
+            // Formatear ambos números con ceros a la izquierda
+            $numero1 = str_pad($i, 4, '0', STR_PAD_LEFT);
+            $numero2 = str_pad($i + 1, 4, '0', STR_PAD_LEFT);
+
             DB::table('metros')->insert([
-                'descripcion' => "metro N° " . $i,
-                /*'nombre' => $this->faker->firstName(),
-                'apellido' => $this->faker->lastName(),
-                'email' => $this->faker->unique()->safeEmail(),
-                'telefono' => $this->faker->phoneNumber(),
-                'data' => $this->faker->text(),*/
-                'precio' => 30000, // Precio entre 10 y 1000
-                'estado' => 'DISPONIBLE', // Estado fijo "disponible"
+                'descripcion' => "N° " . $numero1 . " y N° " . $numero2,
+                'precio' => 1, // Precio entre 10 y 1000, puedes ajustarlo según sea necesario
+                'estado' => 'DISPONIBLE', // Estado fijo "DISPONIBLE"
             ]);
         }
     }

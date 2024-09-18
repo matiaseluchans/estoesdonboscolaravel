@@ -99,20 +99,20 @@
                 lo que nos permitirá extender los años de actividad en el club, dando a más chicos la oportunidad de seguir jugando y formándose.<br>
 
                 Cada metro cuadrado cuenta, y con tu aporte no solo estarás ayudando a mejorar nuestro espacio, sino que también tendrás la oportunidad
-                de participar en espectaculares sorteos. <br>Si alcanzamos los siguientes objetivos, los premios serán:<br><br>
+                de participar en espectaculares sorteos. <br>Si alcanzamos los siguientes objetivos, los premios serán:<br>
+            <ul>
+                <li><b>1.000 colaboradores: Sorteo de un televisor de última generación.</b></li>
+                <li><b>2.000 colaboradores: Sorteo de un juego de living completo.</b></li>
+                <li><b>3.000 colaboradores: Sorteo de una moto eléctrica.</b></li>
+                <li><b>4.000 colaboradores: Sorteo de una PlayStation 5.</b></li>
+                <li><b>5.000 colaboradores: Sorteo de un auto.</b></li>
+            </ul>
+            Tu aporte no solo cambia el futuro del club, sino que también te da la chance de ganar grandes premios.
+            <br><br>
+            <b>
 
-                &ensp; &ensp; &ensp; &ensp; &ensp; <b>1.000 colaboradores:</b> Sorteo de un televisor de última generación.<br>
-                &ensp; &ensp; &ensp; &ensp; &ensp; <b>3.000 colaboradores:</b> Sorteo de un juego de living completo.<br>
-                &ensp; &ensp; &ensp; &ensp; &ensp; <b>6.000 colaboradores:</b> Sorteo de un 0 km.<br><br>
-                Cada colaboración es una oportunidad más para transformar vidas, crear recuerdos inolvidables,
-                y hacer que nuestros jóvenes crezcan en un ambiente que fomente la competencia sana y la amistad.
-                <br><br>
-                Tu aporte no solo cambia el futuro del club, sino que también te da la chance de ganar grandes premios.
-                <br><br>
-                <b>
-
-                    ¡Juntos podemos hacer la diferencia!
-                </b>
+                ¡Juntos podemos hacer la diferencia!
+            </b>
             </p>
 
         </div>
@@ -139,22 +139,22 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th class="text-center">Metro N°</th>
-                        <!--<th>Descripcion</th>-->
+                        <th width="40" class="text-center"> ID</th>
+                        <th>Tickets</th>
                         <!--<th>Nombre</th>
                         <th>Apellido</th>
                         <th>Email</th>
                         <th>Teléfono</th>-->
                         <th>Precio</th>
-                        <th>Estado</th>
+                        <th width="70">Estado</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($data as $d)
                     <tr>
-                        <td style="height:13px" class="text-center">N°{{ $d->id }}</td>
-                        <!--<td>{{ $d->descripcion }}</td>-->
+                        <td style="height:13px" class="text-center">{{ $d->id }}</td>
+                        <td>{{ $d->descripcion }}</td>
                         <!--<td>{{ $d->nombre }}</td>
                             <td>{{ $d->apellido }}</td>
                             <td>{{ $d->email }}</td>
@@ -222,7 +222,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <label for="telefono" class="form-label">Teléfono</label>
-                                        <input type="text" name="telefono" id="telefono" class="form-control" required>
+                                        <input type="number" name="telefono" id="telefono" class="form-control" required>
                                     </div>
                                 </div>
                                 <!--<div class="row">
@@ -349,20 +349,50 @@
 
         $('#mp-button').on('click', function() {
             let form = $('#editProductForm');
-            // Crear un objeto vacío donde almacenarás los datos
-            let formDataObject = {};
 
-            // Usar serializeArray para obtener los datos y luego convertirlo en un objeto
+            // Validar que los campos requeridos no estén vacíos
+            let nombre = $('#nombre').val().trim();
+            let apellido = $('#apellido').val().trim();
+            let email = $('#email').val().trim();
+            let telefono = $('#telefono').val().trim();
+            let errorMsg = '';
+
+            if (!nombre) {
+                errorMsg += 'El campo Nombre es obligatorio.<br>';
+            }
+            if (!apellido) {
+                errorMsg += 'El campo Apellido es obligatorio.<br>';
+            }
+            if (!email) {
+                errorMsg += 'El campo Email es obligatorio.<br>';
+            } else {
+                // Validar el formato del email
+                let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(email)) {
+                    errorMsg += 'El formato del Email es inválido.<br>';
+                }
+            }
+            if (!telefono) {
+                errorMsg += 'El campo Teléfono es obligatorio.<br>';
+            }
+
+            // Si hay algún error, mostrar mensaje y no continuar
+            if (errorMsg) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Faltan datos',
+                    html: errorMsg, // Aquí mostramos los mensajes de error acumulados
+                    showConfirmButton: true
+                });
+                return; // Detener la ejecución si hay errores
+            }
+
+            // Si todos los campos son válidos, continuar con el proceso
+            let formDataObject = {};
             form.serializeArray().forEach(function(field) {
                 formDataObject[field.name] = field.value;
             });
 
-            console.log(formDataObject);
-
-
-            //let formData = form.serialize();
-            //let formData = new FormData(form[0]);
-            //console.log(formData);
             let productId = form.attr('action').split('/').pop();
 
             Swal.fire({
@@ -374,17 +404,12 @@
                     Swal.showLoading();
                 }
             });
-            //console.log(formData);
 
+            // Realizar la llamada AJAX para redirigir a Mercado Pago
             $.ajax({
                 url: `/metros-pago/${productId}`,
                 method: 'POST',
-                //data: formData,
                 data: formDataObject,
-                //data: {
-                //   _token: '{{ csrf_token() }}',
-                //form: formData
-                //},
                 success: function(response) {
                     window.location.href = response.init_point;
                 },

@@ -90,7 +90,7 @@ class MetrosController extends Controller
      * @param  \App\Models\Metro  $data
      * @return \Illuminate\Http\Response
      */
-    public function show(Producto $data)
+    public function show(Metro $data)
     {
         // Mostrar un producto específico
         return response()->json($data);
@@ -122,7 +122,7 @@ class MetrosController extends Controller
      * @param  \App\Models\Metro  $data
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Producto $data)
+    public function update(Request $request, Metro $data)
     {
 
         // Validar los datos
@@ -171,62 +171,7 @@ class MetrosController extends Controller
         return response()->json(['message' => 'Producto eliminado con éxito']);
     }
 
-    /*
-    public function crearPago(Request $request, $id)
-    {
-        // Inicializar SDK de Mercado Pago
-        SDK::setAccessToken(env('MERCADO_PAGO_ACCESS_TOKEN'));
 
-        // Buscar el Metro
-        $data = Metro::find($id);
-
-        // Crear preferencia de pago
-        $preference = new Preference();
-
-        // Crear un item
-        $item = new Item();
-        $item->title = $data->descripcion;
-        $item->quantity = 1;
-        $item->unit_price = 30000; // Precio de $30000 por el M2
-
-        $preference->items = [$item];
-
-        // Payer (puedes usar los datos del formulario)
-        $payer = new Payer();
-        $payer->name = $request->input('nombre');
-        $payer->surname = $request->input('apellido');
-        $payer->email = $request->input('email');
-        $payer->phone = [
-            'number' => $request->input('telefono')
-        ];
-        $preference->payer = $payer;
-
-        // URLs de retorno
-        $preference->back_urls = [
-            'success' => route('metros.success', ['id' => $id]),
-            'failure' => route('metros.failure', ['id' => $id]),
-            'pending' => route('metros.pending', ['id' => $id]),
-        ];
-
-        $preference->auto_return = 'approved';
-
-        // Guardar preferencia
-        $preference->save();
-
-        return response()->json(['init_point' => $preference->init_point]);
-    }
-
-    // Método para manejar la respuesta exitosa
-    public function success(Request $request, $id)
-    {
-        // Actualizar el estado del producto a 'VENDIDO'
-        $data = Metro::find($id);
-        $data->estado = 'VENDIDO';
-        $data->save();
-
-        // Redirigir con mensaje de éxito
-        return redirect()->route('metros.index')->with('success', 'Producto comprado exitosamente.');
-    }*/
 
     public function __construct()
     {
@@ -241,12 +186,15 @@ class MetrosController extends Controller
 
         // Crear el objeto de item
         $item = new \MercadoPago\Item();
-        $item->title = $data->descripcion;
+        $item->title = "Compra de Metro de Cesped " . $data->descripcion;
         $item->quantity = 1;
         $item->unit_price = $data->precio;
         //$item->unit_price = 1;
         $preference->items = [$item];
 
+        $preference->notification_url = route('webhook.mercadopago');
+
+        Log::info(route('webhook.mercadopago'));
         // Crear el objeto de payer (comprador) con los datos del formulario
         /*$logrequests = "mercadopago datos request : " . json_encode($request->all(), true);
 
@@ -269,7 +217,8 @@ class MetrosController extends Controller
             'nombre' => $request->input('nombre'),
             'apellido' => $request->input('apellido'),
             'email' => $request->input('email'),
-            'telefono' => $request->input('telefono')
+            'telefono' => $request->input('telefono'),
+            'descripcion' => $data->descripcion
         ];
 
         // Configuración de las URLs de retorno
@@ -292,7 +241,7 @@ class MetrosController extends Controller
         // Log para verificar la información que llega de Mercado Pago
         //$logrequests = "mercadopago datos request : " . json_encode($request->all(), true);
         //Log::info($logrequests);
-
+        Log::info("success recibido");
         // Obtén el producto
         $data = Metro::findOrFail($id);
 
@@ -314,54 +263,71 @@ class MetrosController extends Controller
         $apellido = $metadata->apellido;
         $email = $metadata->email;
         $telefono = $metadata->telefono;
+        $descripcion = $metadata->descripcion;
 
         // Si la transacción fue aprobada, actualiza el estado del producto
         if ($payment_status == 'approved') {
-            $data->estado = 'VENDIDO';
-            $data->nombre = $nombre;
-            $data->apellido = $apellido;
-            $data->email = $email;
-            $data->telefono = $telefono;
 
-            // Almacena la información de la transacción en el campo "data"
-            $data->data = json_encode([
-                'payment_id' => $payment_id,
-                'status' => $payment_status,
-                'nombre' => $nombre,
-                'apellido' => $apellido,
-                'email' => $email,
-                'telefono' => $telefono,
-                'payment_method' => $payment_method, // Agrega el tipo de pago si es relevante
-                'merchant_order_id' => $merchant_order_id // ID de la orden (opcional)
-            ]);
+            Log::info("Pago aprobado. Procesando actualización del producto.");
 
-            // Guarda los cambios en la base de datos
-            $data->save();
+            if ($data->estado == "DISPONIBLE") {
+
+                $data->estado = 'VENDIDO';
+                $data->nombre = $nombre;
+                $data->apellido = $apellido;
+                $data->email = $email;
+                $data->telefono = $telefono;
+                //$data->descripcion = $descripcion;
+
+                // Almacena la información de la transacción en el campo "data"
+                $data->data = json_encode([
+                    'payment_id' => $payment_id,
+                    'status' => $payment_status,
+                    'nombre' => $nombre,
+                    'apellido' => $apellido,
+                    'email' => $email,
+                    'telefono' => $telefono,
+                    'payment_method' => $payment_method, // Agrega el tipo de pago si es relevante
+                    'merchant_order_id' => $merchant_order_id // ID de la orden (opcional)
+                ]);
+
+                // Guarda los cambios en la base de datos
+                $data->save();
+                Log::info("Producto actualizado correctamente. ID del producto: $id");
+
+
+                // Datos para enviar en el correo
+                $data = [
+                    'status' => $payment_status,
+                    'payment_id' => $payment_id,
+                    'id' => $id,
+                    'nombre' => $nombre,
+                    'apellido' => $apellido,
+                    'email' => $email,
+                    'telefono' => $telefono,
+                    'descripcion' => $descripcion
+                ];
+
+                // Enviar correo a los 3 contactos
+                //$contacts = ['contacto1@example.com', 'contacto2@example.com', 'contacto3@example.com'];
+                //$contacts = ['matiaseluchans@gmail.com', 'proyecto11desintetico@gmail.com', $email];
+
+                //foreach ($contacts as $contact) {
+                //    Mail::to($contact)->send(new TransactionStatusMail($data));
+                //}
+
+                Mail::to('proyecto11desintetico@gmail.com')
+                    ->cc(['matiaseluchans@gmail.com', $email])
+                    ->send(new TransactionStatusMail($data));
+                Log::info("Correo enviado a contactos.");
+            } else {
+                Log::info("Producto ya se actualizo y el correo fue enviado anteriormente. ID del producto: $id");
+            }
+        } else {
+            // Si el estado del pago no es 'approved', registrar un log con el estado
+            Log::warning("El pago no fue aprobado. Estado: {$payment->status}");
+            Log::info("Datos del cliente: Nombre: {$nombre}, Email: {$email}, telefono: {$telefono}");
         }
-
-        // Datos para enviar en el correo
-        $data = [
-            'status' => $payment_status,
-            'payment_id' => $payment_id,
-            'id' => $id,
-            'nombre' => $nombre,
-            'apellido' => $apellido,
-            'email' => $email,
-            'telefono' => $telefono
-        ];
-
-        // Enviar correo a los 3 contactos
-        //$contacts = ['contacto1@example.com', 'contacto2@example.com', 'contacto3@example.com'];
-        /*$contacts = ['matiaseluchans@gmail.com', 'proyecto11desintetico@gmail.com', $email];
-
-        foreach ($contacts as $contact) {
-            Mail::to($contact)->send(new TransactionStatusMail($data));
-        }*/
-
-        Mail::to('proyecto11desintetico@gmail.com')
-            ->cc(['matiaseluchans@gmail.com', $email])
-            ->send(new TransactionStatusMail($data));
-
 
         // Redirige a la página principal con un mensaje de éxito
         return redirect()->route('metros.index')->with('success', '¡La compra del Metro N° ' . $id . ' se realizó con éxito!');
@@ -390,6 +356,7 @@ class MetrosController extends Controller
         $apellido = $metadata->apellido;
         $email = $metadata->email;
         $telefono = $metadata->telefono;
+        $descripcion = $metadata->descripcion;
 
 
 
@@ -401,12 +368,14 @@ class MetrosController extends Controller
             'nombre' => $nombre,
             'apellido' => $apellido,
             'email' => $email,
-            'telefono' => $telefono
+            'telefono' => $telefono,
+            'descripcion' => $descripcion,
+
         ];
 
         // Enviar correo a los 3 contactos
         Mail::to('proyecto11desintetico@gmail.com')
-            ->cc(['matiaseluchans@gmail.com', $email])
+            ->cc(['matiaseluchans@gmail.com'])
             ->send(new TransactionStatusMail($data));
 
 
@@ -437,6 +406,7 @@ class MetrosController extends Controller
         $apellido = $metadata->apellido;
         $email = $metadata->email;
         $telefono = $metadata->telefono;
+        $descripcion = $metadata->descripcion;
 
 
 
@@ -448,13 +418,14 @@ class MetrosController extends Controller
             'nombre' => $nombre,
             'apellido' => $apellido,
             'email' => $email,
-            'telefono' => $telefono
+            'telefono' => $telefono,
+            'descripcion' => $descripcion
         ];
 
         // Enviar correo a los 3 contactos
         //$contacts = ['contacto1@example.com', 'contacto2@example.com', 'contacto3@example.com'];
         Mail::to('proyecto11desintetico@gmail.com')
-            ->cc(['matiaseluchans@gmail.com', $email])
+            ->cc(['matiaseluchans@gmail.com'])
             ->send(new TransactionStatusMail($data));
 
         // Mensaje de pendiente en la sesión
@@ -478,12 +449,19 @@ class MetrosController extends Controller
     public function mailTest(Request $request)
     {
 
-
+        $data = Metro::findOrFail(7);
         // Recuperar la metadata que enviaste en la preferencia
-        $nombre = "Esto es una prueba";
+        /* $nombre = "Esto es una prueba";
         $apellido = "Gonzalez";
         $email = "prueba@gmail.com";
         $telefono = "12345678";
+        $descripcion = "prueba";
+        */
+        $nombre = $data->nombre;
+        $apellido = $data->apellido;
+        $email = $data->email;
+        $telefono = $data->telefono;
+        $descripcion = $data->descripcion;
 
 
 
@@ -495,10 +473,106 @@ class MetrosController extends Controller
             'nombre' => $nombre,
             'apellido' => $apellido,
             'email' => $email,
-            'telefono' => $telefono
+            'telefono' => $telefono,
+            'descripcion' => $descripcion,
         ];
 
         Mail::to('matiaseluchans@gmail.com')
             ->send(new TransactionStatusMail($data));
+    }
+
+
+    public function handleWebhook(Request $request)
+    {
+        // Obtener los datos de la notificación
+        $notification = $request->all();
+
+        Log::info("Webhook recibido");
+        Log::info(json_encode($notification));
+
+        // Verificar que sea una notificación de tipo "payment"
+        if (isset($notification['type'])) {
+            if ($notification['type'] == 'payment') {
+                Log::info("Notificación de pago recibida.");
+
+                // Obtener la información del pago desde MercadoPago usando el ID del pago
+                $paymentId = $notification['data']['id'];
+                $payment = \MercadoPago\Payment::find_by_id($paymentId);
+
+                if ($payment) {
+                    Log::info("Pago encontrado. ID: $paymentId, Estado: {$payment->status}");
+
+                    // Verificar si el pago fue acreditado
+                    if ($payment->status == 'approved') {
+                        Log::info("Pago aprobado. Procesando actualización del producto.");
+
+                        // Obtener el ID del producto desde la metadata del pago
+                        $productoId = $payment->metadata->producto_id;
+                        $producto = Metro::findOrFail($productoId);
+
+                        if ($producto->estado == "DISPONIBLE") {
+                            // Actualizar el estado del producto a 'VENDIDO'
+                            $producto->estado = 'VENDIDO';
+                            $producto->nombre = $payment->metadata->nombre;
+                            $producto->apellido = $payment->metadata->apellido;
+                            $producto->email = $payment->metadata->email;
+                            $producto->telefono = $payment->metadata->telefono;
+
+                            $producto->data = json_encode([
+                                'payment_id' => $payment->id,
+                                'status' => $payment->status,
+                                'nombre' => $payment->metadata->nombre,
+                                'apellido' => $payment->metadata->apellido,
+                                'email' => $payment->metadata->email,
+                                'telefono' => $payment->metadata->telefono,
+                                'payment_method' => $payment->payment_method_id,
+                                //'merchant_order_id' => $payment->merchant_order_id
+                            ]);
+
+                            // Guardar cambios en la base de datos
+                            $producto->save();
+                            Log::info("Producto actualizado correctamente. ID del producto: $productoId");
+
+                            // Preparar los datos para enviar por correo electrónico
+                            $data = [
+                                'status' => $payment->status,
+                                'payment_id' => $payment->id,
+                                'id' => $productoId,
+                                'nombre' => $payment->metadata->nombre,
+                                'apellido' => $payment->metadata->apellido,
+                                'email' => $payment->metadata->email,
+                                'telefono' => $payment->metadata->telefono,
+                                'descripcion' => $producto->descripcion
+                            ];
+
+                            // Enviar correos a los contactos
+                            Mail::to('proyecto11desintetico@gmail.com')
+                                ->cc(['matiaseluchans@gmail.com', $payment->metadata->email])
+                                ->send(new TransactionStatusMail($data));
+
+                            Log::info("Correo enviado a contactos.");
+                        } else {
+                            Log::info("Producto ya se actualizo y el correo fue enviado anteriormente. ID del producto: $productoId");
+                        }
+                    } else {
+                        // Si el estado del pago no es 'approved', registrar un log con el estado
+                        Log::warning("El pago no fue aprobado. Estado: {$payment->status}");
+                        Log::info("Datos del cliente: Nombre: {$payment->metadata->nombre}, Email: {$payment->metadata->email}");
+                    }
+                } else {
+                    // Si no se encuentra el pago, registrar un log de error
+                    Log::error("No se pudo encontrar el pago con ID: $paymentId");
+                }
+            } else {
+                // Si no es una notificación de pago, registrar el tipo de notificación recibido
+                Log::warning("Notificación recibida no es de tipo 'payment'. Tipo: {$notification['type']}");
+            }
+        } else {
+            // Si no es una notificación de pago, registrar el tipo de notificación recibido
+            Log::warning("Notificación recibida no es de tipo 'payment'. Tipo: " . json_encode($notification));
+        }
+
+        // Responder a Mercado Pago para confirmar la recepción de la notificación
+        return response()->json(['status' => 'success'], 200);
     }
 }

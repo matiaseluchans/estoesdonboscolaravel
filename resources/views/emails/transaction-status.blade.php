@@ -111,8 +111,10 @@
                              <tr style="vertical-align:text-top">
                                  <td bgcolor="#f3f3f3">&nbsp;</td>
                                  <td style="width:290px">
+                                     <p class="title">Con estos números estas participando de fabulosos premios</p>
                                      <p class="bg-color title" style="">
-                                         Datos registrados </p>
+                                         <b>{{ $data['descripcion']  }}</b>
+                                     </p>
                                  </td>
                                  <td bgcolor="#f3f3f3">&nbsp;</td>
                              </tr>
@@ -124,6 +126,7 @@
                                      <p class="p-card">
 
                                          Id de Metro:<b>{{ $data['id']  }}</b><br>
+
                                          Nombre:<b>{{ $data['nombre']}}</b><br>
                                          Apellido:<b>{{ $data['apellido'] }}</b><br>
                                          Email:<b>{{ $data['email'] }}</b><br>
