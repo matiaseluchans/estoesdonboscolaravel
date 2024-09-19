@@ -272,6 +272,14 @@ h1 {
     animation: flash 1s infinite; /* Intermitente continuo */
 }
 
+.btn-warning{
+    border-color: #ffc107 !important;
+}
+.btn-default{
+    background-color: #ddd;
+
+}
+
 .carousel-control-prev,
 .carousel-control-next {
     /*top: 10%;*/
