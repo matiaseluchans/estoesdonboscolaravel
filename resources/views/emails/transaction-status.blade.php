@@ -31,11 +31,11 @@
          .p-card {
              background-color: #e0e0e0;
              color: #000;
-             border-radius: 4px;
+             border-radius: 0px;
              font-size: 14px;
              padding: 10px;
              line-height: 1.4;
-             height: 150px
+             height: 160px
          }
 
 
@@ -82,6 +82,25 @@
              margin-bottom: 0px;
 
          }
+
+         .btn-default {
+             background-color: #ccc;
+             border-radius: 8px;
+             padding: 10px;
+
+         }
+
+         .text-start {
+             text-align: left;
+         }
+
+         .text-end {
+             text-align: end;
+         }
+
+         .weight {
+             font-weight: 600;
+         }
      </style>
  </head>
 
@@ -114,7 +133,7 @@
                          </tbody>
                      </table>
                      <table width="600" border="0" align="center" cellpadding="0" cellspacing="0"
-                         style="margin-top:10px">
+                         style="">
                          <tbody>
                              <tr>
                                  <td bgcolor="#f3f3f3">
@@ -209,33 +228,65 @@
                                  </td>
 
                              </tr>
-                             <tr style="vertical-align:text-top;margin-top:-10px">
+                             <tr>
+                                 <td class="text-center" style="height:20px"></td>
+                             </tr>
+                             <tr style="vertical-align:text-top;">
 
-                                 <td class="text-center" style="width:290px">
+                                 <td class="text-center" style="width:290px;height:250px">
 
 
-                                     <p class="p-card margin-20">
 
-                                         Id de Metro:<b>{{ $data['id']  }}</b><br>
+                                     <table class="table table-striped mx-auto" style="width:350px;margin:auto">
+                                         <thead>
+                                             <tr style="background:#229547">
+                                                 <th width="120" class="text-center" colspan=2>Datos Personales</th>
 
-                                         Nombre:<b>{{ $data['nombre']}}</b><br>
-                                         Apellido:<b>{{ $data['apellido'] }}</b><br>
-                                         Email:<b>{{ $data['email'] }}</b><br>
-                                         Teléfono:<b>{{ $data['telefono']}}</b><br>
-                                         Estado del Pago:<b>{{ $data['status']}}</b><br>
-                                     </p>
-                                     <p class="margin-20" style="background-color: #e0e0e0;">
 
-                                         <a href="/bases" styles="color:blue;">Bases y condiciones de los sorteos</a>
+                                             </tr>
+                                         </thead>
+                                         <tbody>
+                                             <tr>
+                                                 <td style="height:13px" width="50%" class="text-end weight">Id de Metro:</td>
+                                                 <td class="text-start">{{ $data['id']  }}</td>
+                                             </tr>
 
+                                             <tr style="background:#ddd">
+                                                 <td style="height:13px" width="50%" class="text-end  weight">Nombre:</td>
+                                                 <td class="text-start">{{ $data['nombre']}}</td>
+                                             </tr>
+                                             <tr>
+                                                 <td style="height:13px" width="50%" class="text-end  weight">Apellido:</td>
+                                                 <td class="text-start">{{ $data['apellido'] }}</td>
+                                             </tr>
+                                             <tr style="background:#ddd">
+                                                 <td style="height:13px" width="50%" class="text-end  weight">Email:</td>
+                                                 <td class="text-start">{{ $data['email'] }}</td>
+                                             </tr>
+                                             <tr>
+                                                 <td style="height:13px" width="50%" class="text-end  weight">Teléfono:</td>
+                                                 <td class="text-start">{{ $data['telefono'] }}</td>
+                                             </tr>
+
+                                             <tr style="background:#ddd">
+                                                 <td style="height:13px" class="text-end  weight">Estado del Pago:</td>
+                                                 <td class="text-start">{{ $data['status']}}</td>
+                                             </tr>
+                                         </tbody>
+                                     </table>
+                                 </td>
+                             </tr>
+                             <tr style="">
+
+                                 <td class="text-center">
+                                     <p class="margin-20">
+
+                                         <a href="https://11desintetico.ar/pdf/terminos.pdf" target="_blank" class="btn btn-default" style="color: blue; text-decoration: underline;">Descarga términos y condiciones de los sorteos</a>
+                                         <br>
+                                         <br>
                                      </p>
                                  </td>
-
-
                              </tr>
-
-
-
                          </tbody>
                      </table>
 

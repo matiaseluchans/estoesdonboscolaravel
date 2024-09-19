@@ -126,7 +126,7 @@
                 <!--
                                 <img src="img/ecko.jpeg" class="" style="border-radius:20px;margin-bottom: -7px;height:550px;" alt="Image">
                                 -->
-                <img src="img/premios.png" class="text-center" style="border-radius:20px;" alt="Image" width="350">
+                <img src="img/premios.png" class="text-center" style="border-radius:20px;" alt="Image" width="300">
 
             </div>
             <p class="mb-4 " ">
@@ -188,7 +188,7 @@
             <div class="text-center my-3">
                 <a class="btn btn-warning btn-lg flash" onclick="editProduct(1)">Obtené tu M<sup>2 </sup></a>
                 <p class="" style="margin-top:7%">Al realizar tu colaboración se te asignarán 2 números válidos para cada uno de los sorteos.</p>
-                <a href="/bases" styles="color:blue;">Bases y condiciones de los sorteos</a>
+                <a href="pdf/terminos.pdf" target="_blank" class="btn btn-default" style="color: blue; text-decoration: underline;">Descarga términos y condiciones de los sorteos</a>
 
             </div>
 
