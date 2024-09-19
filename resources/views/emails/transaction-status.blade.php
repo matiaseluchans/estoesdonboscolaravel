@@ -140,7 +140,7 @@
                                      <img src="img/premios.png" class="text-center" style="border-radius:20px;" alt="Image" width="400">
         -->
                                      <img
-                                         src="https://11desintetico.ar/img/cancha-squad.jpeg" width="300"
+                                         src="https://11desintetico.ar/img/premios.png" width="300"
                                          alt="header">
                                  </td>
                              </tr>
