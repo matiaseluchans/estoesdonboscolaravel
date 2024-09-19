@@ -188,7 +188,7 @@
             <div class="text-center my-3">
                 <a class="btn btn-warning btn-lg flash" onclick="editProduct(1)">Obtené tu M<sup>2 </sup></a>
                 <p class="" style="margin-top:7%">Al realizar tu colaboración se te asignarán 2 números válidos para cada uno de los sorteos.</p>
-                <a href="pdf/terminos.pdf" target="_blank" class="btn btn-default" style="color: blue; text-decoration: underline;">Descarga términos y condiciones de los sorteos</a>
+                <a href="pdf/terminos.pdf" target="_blank" class="btn btn-default" style="color: blue; text-decoration: underline;">Ver términos y condiciones</a>
 
             </div>
 

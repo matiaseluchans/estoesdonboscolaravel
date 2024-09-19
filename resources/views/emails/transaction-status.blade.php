@@ -281,7 +281,7 @@
                                  <td class="text-center">
                                      <p class="margin-20">
 
-                                         <a href="https://11desintetico.ar/pdf/terminos.pdf" target="_blank" class="btn btn-default" style="color: blue; text-decoration: underline;">Descarga términos y condiciones de los sorteos</a>
+                                         <a href="https://11desintetico.ar/pdf/terminos.pdf" target="_blank" class="btn btn-default" style="color: blue; text-decoration: underline;">Ver términos y condiciones</a>
                                          <br>
                                          <br>
                                      </p>
