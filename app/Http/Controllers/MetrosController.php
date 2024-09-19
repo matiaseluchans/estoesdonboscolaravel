@@ -175,7 +175,7 @@ class MetrosController extends Controller
 
     public function __construct()
     {
-        //SDK::setAccessToken(config('services.mercado_pago.access_token'));
+        SDK::setAccessToken(config('services.mercado_pago.access_token'));
     }
 
 
@@ -452,7 +452,7 @@ class MetrosController extends Controller
     public function mailTest(Request $request)
     {
 
-        $data = Metro::findOrFail(7);
+        $data = Metro::findOrFail(1);
         // Recuperar la metadata que enviaste en la preferencia
         /* $nombre = "Esto es una prueba";
         $apellido = "Gonzalez";

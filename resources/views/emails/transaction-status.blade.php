@@ -25,7 +25,7 @@
              text-align: center;
              vertical-align: top;
              border-radius: 4px;
-             padding: 10px
+             /* padding: 10px*/
          }
 
          .p-card {
@@ -35,7 +35,7 @@
              font-size: 14px;
              padding: 10px;
              line-height: 1.4;
-             height: 200px
+             height: 150px
          }
 
 
@@ -46,6 +46,41 @@
 
          small {
              font-size: 11px;
+         }
+
+         .display-24 {
+             font-size: 24px;
+             color: #229547;
+             text-align: center;
+             margin: auto;
+         }
+
+         .display-18 {
+             font-size: 18px;
+             color: #229547;
+             text-align: center;
+             margin: auto;
+         }
+
+         .display-24-white {
+             font-size: 24px;
+             color: #FFF;
+             text-align: center;
+             font-weight: 800;
+
+             padding: 24px;
+         }
+
+         .text-center {
+             text-align: center;
+         }
+
+         .margin-20 {
+             margin-left: 20px;
+             margin-right: 20px;
+             margin-top: 0px;
+             margin-bottom: 0px;
+
          }
      </style>
  </head>
@@ -85,18 +120,75 @@
                                  <td bgcolor="#f3f3f3">
 
                                      <p
-                                         style="color:#333333;font-size:16px;margin-left:15px;margin-right:30px;margin-bottom:20px">
+                                         style="text-align:center;color:#333333;font-size:16px;margin-left:15px;margin-right:30px;margin-bottom:20px">
                                          ¡Gracias <span class="text-color">{{ $data["email"] }}</span>&nbsp;por ser parte de este sueño!<br><br>
-                                         Tu colaboración nos acerca un paso más a convertir
-                                         nuestra cancha en un lugar donde los chicos puedan seguir disfrutando del fútbol,
-                                         competir y generar amistades en un ambiente profesional. Gracias a tu aporte,
-                                         estamos más cerca de transformar la vida de muchos jóvenes, brindándoles un espacio seguro y
-                                         duradero donde puedan crear recuerdos inolvidables. <br><br>
-                                         <b>¡Tu apoyo hace la diferencia y estamos profundamente agradecidos!</b>
+
+
+
+                                     <h1 class="display-24">¡Colaborando participás de increíbles sorteos!</h1>
+
 
 
                                      </p>
 
+                                 </td>
+                             </tr>
+
+                             <tr>
+                                 <td bgcolor="#f3f3f3" style="text-align:center">
+                                     <!--
+                                     <img src="img/premios.png" class="text-center" style="border-radius:20px;" alt="Image" width="400">
+        -->
+                                     <img
+                                         src="https://11desintetico.ar/img/cancha-squad.jpeg" width="300"
+                                         alt="header">
+                                 </td>
+                             </tr>
+
+                             <tr>
+                                 <td bgcolor="#f3f3f3">
+
+                                     <!--<ul style="width:500px;text-align:center; margin:auto">
+                                         <li><b>7 de diciembre 2024 - Sorteo de un televisor de última generación.</b></li>
+
+                                         <li><b>28 de febrero 2025 - Sorteo de un juego de living completo.</b></li>
+                                         <li><b>26 de marzo 2025 - Sorteo de una moto eléctrica.</b></li>
+                                         <li><b>28 de mayo 2025 - Sorteo de una PlayStation 5.</b></li>
+                                         <li><b>5 de julio 2025 - Sorteo de un auto 0 km.</b></li>
+                                     </ul>-->
+                                     <table class="table table-striped mx-auto" style="width:350px;margin:auto">
+                                         <thead>
+                                             <tr style="background:#229547">
+                                                 <th width="120" class="text-center"> Fecha</th>
+                                                 <th>Sorteo</th>
+
+                                             </tr>
+                                         </thead>
+                                         <tbody>
+                                             <tr style="background:#ddd">
+                                                 <td style="height:13px" class="text-start">7 de diciembre 2024</td>
+                                                 <td>Un televisor de última generación</td>
+                                             </tr>
+
+                                             <tr>
+                                                 <td style="height:13px" class="text-start">28 de febrero 2025</td>
+                                                 <td>Un juego de living completo</td>
+                                             </tr>
+                                             <tr style="background:#ddd">
+                                                 <td style="height:13px" class="text-start">26 de marzo 2025</td>
+                                                 <td>Una moto eléctrica</td>
+                                             </tr>
+                                             <tr>
+                                                 <td style="height:13px" class="text-start">28 de mayo 2025</td>
+                                                 <td>Una PlayStation 5</td>
+                                             </tr>
+
+                                             <tr style="background:#ddd">
+                                                 <td style="height:13px" class="text-start">5 de julio 2025</td>
+                                                 <td>Un auto 0 km</td>
+                                             </tr>
+                                         </tbody>
+                                     </table>
                                  </td>
                              </tr>
 
@@ -104,26 +196,25 @@
                          </tbody>
                      </table>
 
-
-                     <table width="600" bgcolor="#f3f3f3" border="0" align="center" cellpadding="4"
+                     <table style="padding-top:20px" width=" 600" bgcolor="#f3f3f3" border="0" align="center" cellpadding="0" cellspacing="0"
                          cellspacing="0">
                          <tbody>
-                             <tr style="vertical-align:text-top">
-                                 <td bgcolor="#f3f3f3">&nbsp;</td>
-                                 <td style="width:290px">
-                                     <p class="title">Con estos números estas participando de fabulosos premios</p>
-                                     <p class="bg-color title" style="">
-                                         <b>{{ $data['descripcion']  }}</b>
+                             <tr style="vertical-align:text-top" align="center">
+
+                                 <td class="text-center" style="width:290px;">
+                                     <p class="text-center display-18">Tus números para cada uno de los sorteos son:</p>
+                                     <p class="bg-color title text-center display-24-white margin-20">
+                                         {{ $data['descripcion']  }}
                                      </p>
                                  </td>
-                                 <td bgcolor="#f3f3f3">&nbsp;</td>
+
                              </tr>
                              <tr style="vertical-align:text-top;margin-top:-10px">
-                                 <td bgcolor="#f3f3f3">&nbsp;</td>
-                                 <td style="width:290px">
+
+                                 <td class="text-center" style="width:290px">
 
 
-                                     <p class="p-card">
+                                     <p class="p-card margin-20">
 
                                          Id de Metro:<b>{{ $data['id']  }}</b><br>
 
@@ -132,22 +223,22 @@
                                          Email:<b>{{ $data['email'] }}</b><br>
                                          Teléfono:<b>{{ $data['telefono']}}</b><br>
                                          Estado del Pago:<b>{{ $data['status']}}</b><br>
+                                     </p>
+                                     <p class="margin-20" style="background-color: #e0e0e0;">
 
+                                         <a href="/bases" styles="color:blue;">Bases y condiciones de los sorteos</a>
 
                                      </p>
                                  </td>
 
-                                 <td bgcolor="#f3f3f3">&nbsp;</td>
+
                              </tr>
+
+
+
                          </tbody>
                      </table>
-                     <table width="600" border="0" align="center" cellpadding="0" cellspacing="0">
-                         <tbody>
-                             <tr>
-                                 <td bgcolor="#f3f3f3">&nbsp;</td>
-                             </tr>
-                         </tbody>
-                     </table>
+
                      <table width="600" border="0" align="center" cellpadding="0" cellspacing="0">
                          <tbody>
                              <tr>

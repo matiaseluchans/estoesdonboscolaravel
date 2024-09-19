@@ -72,6 +72,18 @@
         display: inline-block;
         border-radius: 5px;
     }
+
+    .display-24 {
+        font-size: 1.25rem;
+    }
+
+    .display-5 {
+        font-size: 1.50rem;
+    }
+
+    li {
+        font-size: 1rem;
+    }
 </style>
 
 
@@ -94,7 +106,7 @@
         <div class="col-md-6 col-xs-12 mx-auto">
 
 
-            <h5 class="pe-3 text-center display-24">Cada vez falta menos para tanto!</h5>
+            <h5 class="pe-3 text-center display-24">¡Cada vez falta menos para tanto!</h5>
 
             <div class="progress-container mt-4" style="">
                 <div class="progress-bar" style="width: {{ $porcentajeVendidos }}%;">
@@ -114,20 +126,53 @@
                 <!--
                                 <img src="img/ecko.jpeg" class="" style="border-radius:20px;margin-bottom: -7px;height:550px;" alt="Image">
                                 -->
-                <img src="img/auto.png" class="text-center" style="border-radius:20px;" alt="Image" width="600">
+                <img src="img/premios.png" class="text-center" style="border-radius:20px;" alt="Image" width="350">
 
             </div>
             <p class="mb-4 " ">
 
 
-            <ul class=" mx-auto" style="width:500px">
+            <!--<ul class=" mx-auto" style="width:350px">
                 <li><b>7 de diciembre 2024 - Sorteo de un televisor de última generación.</b></li>
 
                 <li><b>28 de febrero 2025 - Sorteo de un juego de living completo.</b></li>
-                <li><b>26 de marzo 2025 - Sorteo de una moto eléctrica.</b></li>
+                <li> 26 de marzo 2025 - Sorteo de una moto eléctrica.</li>
                 <li><b>28 de mayo 2025 - Sorteo de una PlayStation 5.</b></li>
-                <li><b>5 de julio 2025 - Sorteo de un auto 0 km.</b></li>
-                </ul>
+                <li>5 de julio 2025 - Sorteo de un auto 0 km.</li>
+                </ul>-->
+            <table class="table table-striped mx-auto" style="width:350px">
+                <thead>
+                    <tr>
+                        <th width="120" class="text-center"> Fecha</th>
+                        <th>Sorteo</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="height:13px" class="text-start">7 de diciembre 2024</td>
+                        <td>Un televisor de última generación</td>
+                    </tr>
+
+                    <tr>
+                        <td style="height:13px" class="text-start">28 de febrero 2025</td>
+                        <td>Un juego de living completo</td>
+                    </tr>
+                    <tr>
+                        <td style="height:13px" class="text-start">26 de marzo 2025</td>
+                        <td>Una moto eléctrica</td>
+                    </tr>
+                    <tr>
+                        <td style="height:13px" class="text-start">28 de mayo 2025</td>
+                        <td>Una PlayStation 5</td>
+                    </tr>
+
+                    <tr>
+                        <td style="height:13px" class="text-start">5 de julio 2025</td>
+                        <td>Un auto 0 km</td>
+                    </tr>
+                </tbody>
+            </table>
 
             </p>
 
