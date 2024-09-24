@@ -131,10 +131,10 @@
             <h1 class="display-5 mb-4 text-center">¡Colaborando participás de increíbles sorteos!</h1>
 
             <div class="rounded text-center mx-auto">
-                <!--
-                                <img src="img/ecko.jpeg" class="" style="border-radius:20px;margin-bottom: -7px;height:550px;" alt="Image">
-                                -->
-                <img src="img/premios.png" class="text-center" style="border-radius:20px;" alt="Image" width="300">
+
+                <img src="img/premios-2.png" class="mx-auto mx-auto d-block d-sm-none" style="border-radius:20px" alt="Image" width="300">
+
+                <img src="img/premios.png" class="mx-auto d-none d-sm-block" style="border-radius:20px;" alt="Image" width="700">
 
             </div>
 
