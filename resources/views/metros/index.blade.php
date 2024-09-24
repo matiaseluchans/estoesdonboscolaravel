@@ -84,6 +84,14 @@
     li {
         font-size: 1rem;
     }
+
+    :focus {
+        outline: none;
+    }
+
+    .service {
+        caret-color: transparent;
+    }
 </style>
 
 
@@ -100,8 +108,8 @@
             </div>
     </div>
 </div>
-<div class="container-fluid service overflow-hidden py-5">
-    <div class="row px-4">
+<div class="container-fluid service overflow-hidden py-5" style="cursor:">
+    <div class=" row px-4">
 
         <div class="col-md-6 col-xs-12 mx-auto">
 
@@ -118,7 +126,7 @@
                 <p style="font-size: 18px; font-weight: 900;">{{ number_format($porcentajeVendidos, 2, ',', '.') }}% Completado</p>
                 <!--<p>{{ $cantidadVendidos }} metros cuadrados <span class="badge bg-danger">VENDIDOS</span></p>
                 <p>{{ $cantidadDisponibles }} metros cuadrados <span class="badge bg-success">DISPONIBLES</span></p>
--->
+                -->
             </div>
             <h1 class="display-5 mb-4 text-center">¡Colaborando participás de increíbles sorteos!</h1>
 
@@ -129,20 +137,12 @@
                 <img src="img/premios.png" class="text-center" style="border-radius:20px;" alt="Image" width="300">
 
             </div>
-            <p class="mb-4 " ">
 
 
-            <!--<ul class=" mx-auto" style="width:350px">
-                <li><b>7 de diciembre 2024 - Sorteo de un televisor de última generación.</b></li>
-
-                <li><b>28 de febrero 2025 - Sorteo de un juego de living completo.</b></li>
-                <li> 26 de marzo 2025 - Sorteo de una moto eléctrica.</li>
-                <li><b>28 de mayo 2025 - Sorteo de una PlayStation 5.</b></li>
-                <li>5 de julio 2025 - Sorteo de un auto 0 km.</li>
-                </ul>-->
+            <br>
             <table class="table table-striped mx-auto" style="width:350px">
                 <thead>
-                    <tr>
+                    <tr class="bg-primary">
                         <th width="120" class="text-center"> Fecha</th>
                         <th>Sorteo</th>
 
@@ -174,7 +174,7 @@
                 </tbody>
             </table>
 
-            </p>
+
 
         </div>
     </div>
