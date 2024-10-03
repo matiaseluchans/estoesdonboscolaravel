@@ -34,7 +34,7 @@ class MetrosController extends Controller
         $cantidadVendidos = $data->where('estado', 'VENDIDO')->count();
         $cantidadDisponibles = $cantidadTotal - $cantidadVendidos;
 
-        $porcentajeVendidos = ($cantidadVendidos / $cantidadTotal) * 100 + 24;
+        $porcentajeVendidos = ($cantidadVendidos / $cantidadTotal) * 100;
 
         // Pasamos las variables a la vista
         // return view('metros.index', compact('cantidadVendidos', 'cantidadDisponibles', 'porcentajeVendidos'));

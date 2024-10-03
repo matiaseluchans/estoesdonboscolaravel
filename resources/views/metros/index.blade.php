@@ -115,18 +115,19 @@
 
 
             <h5 class="pe-3 text-center display-24">¡Cada vez falta menos para tanto!</h5>
-
-            <div class="progress-container mt-4" style="">
-                <div class="progress-bar" style="width: {{ $porcentajeVendidos }}%;">
-                    {{ $porcentajeVendidos }}% Completado
+            <div style="display: none;">
+                <div class="progress-container mt-4" style="">
+                    <div class="progress-bar" style="width: {{ $porcentajeVendidos }}%;">
+                        {{ $porcentajeVendidos }}% Completado
+                    </div>
                 </div>
-            </div>
 
-            <div class="text-center mt-3">
-                <p style="font-size: 18px; font-weight: 900;">{{ number_format($porcentajeVendidos, 2, ',', '.') }}% Completado</p>
-                <!--<p>{{ $cantidadVendidos }} metros cuadrados <span class="badge bg-danger">VENDIDOS</span></p>
+                <div class="text-center mt-3">
+                    <p style="font-size: 18px; font-weight: 900;">{{ number_format($porcentajeVendidos, 2, ',', '.') }}% Completado</p>
+                    <!--<p>{{ $cantidadVendidos }} metros cuadrados <span class="badge bg-danger">VENDIDOS</span></p>
                 <p>{{ $cantidadDisponibles }} metros cuadrados <span class="badge bg-success">DISPONIBLES</span></p>
                 -->
+                </div>
             </div>
             <h1 class="display-5 mb-4 text-center">¡Colaborando participás de increíbles sorteos!</h1>
 
