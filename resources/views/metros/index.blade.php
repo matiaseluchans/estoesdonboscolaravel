@@ -103,7 +103,9 @@
         <h3 class="text-white display-3 mb-4 wow fadeInDown" data-wow-delay="0.1s">Colaborá con un M<sup>2</sup> </h1>
             <div class="text-center my-3">
                 <a class="btn btn-warning btn-lg flash" onclick="editProduct(1)">Obtené tu M<sup>2 </sup></a>
-                <p class="pb-0 mb-0" style="color:white;font-size:20px;margin-top:30px">Al realizar tu colaboración se te asignarán 2 números válidos para cada uno de los sorteos.</p>
+                <h5 class="text-white mt-2 mb-1 " style="font-size:28px;margin-top:20px !important">Cada metro cuenta:<br> $30.000 por m<sup>2</sup> <br> 2 chances de ganar!</h5>
+
+                <p class=" pb-0 mb-0" style="color:white;font-size:20px;margin-top:10px">Los números son válidos para cada uno de los sorteos.</p>
 
             </div>
     </div>
