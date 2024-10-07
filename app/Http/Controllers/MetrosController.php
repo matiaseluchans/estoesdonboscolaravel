@@ -204,7 +204,7 @@ class MetrosController extends Controller
         // Crear el objeto de item
         $item = new \MercadoPago\Item();
         //$item->title = "Compra de Metro de Cesped " . $data->descripcion;
-        $item->title = "Compra de Metro de Cesped ";
+        $item->title = "Compra de Metro de Cesped " . $request->input('email');
         $item->quantity = 1;
         $item->unit_price = $data->precio;
         //$item->unit_price = 1;
