@@ -206,8 +206,8 @@ class MetrosController extends Controller
         //$item->title = "Compra de Metro de Cesped " . $data->descripcion;
         $item->title = "Compra de Metro de Cesped ";
         $item->quantity = 1;
-        //$item->unit_price = $data->precio;
-        $item->unit_price = 1;
+        $item->unit_price = $data->precio;
+        //$item->unit_price = 1;
         $preference->items = [$item];
 
         $preference->notification_url = route('webhook.mercadopago');
