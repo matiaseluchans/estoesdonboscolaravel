@@ -420,8 +420,15 @@
                 errorMsg += 'El campo Email es obligatorio.<br>';
             } else {
                 // Validar el formato del email
-                let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailPattern.test(email)) {
+                //let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?<!\.\.)$/;
+
+                let emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+                // Asegurar que no haya puntos consecutivos en ninguna parte del correo
+                let hasConsecutiveDots = email.includes('..');
+
+                if (!emailPattern.test(email) || hasConsecutiveDots) {
+
                     errorMsg += 'El formato del Email es inválido.<br>';
                 }
             }
@@ -467,12 +474,37 @@
                     window.location.href = response.init_point;
                 },
                 error: function(xhr) {
-                    Swal.close();
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: 'Ocurrió un error al procesar el pago. Por favor, intenta nuevamente.',
-                    });
+
+                    // Verificar si el estado es 422 (Unprocessable Entity)
+                    if (xhr.status === 422) {
+                        // Mostrar los mensajes de error de validación recibidos del servidor
+                        let errors = xhr.responseJSON.errors;
+                        let errorMessage = '';
+
+                        // Recorremos los errores para mostrarlos en un formato adecuado
+                        for (let field in errors) {
+                            if (errors.hasOwnProperty(field)) {
+                                errorMessage += errors[field].join('<br>') + '<br>';
+                            }
+                        }
+
+                        Swal.close();
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Errores de validación',
+                            html: errorMessage, // Muestra los errores acumulados
+                        });
+                    } else {
+                        // Manejo de otros códigos de error
+                        console.log(xhr.responseJSON.message);
+
+                        Swal.close();
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Ocurrió un error al procesar el pago. Por favor, intenta nuevamente.',
+                        });
+                    }
                 }
             });
         });

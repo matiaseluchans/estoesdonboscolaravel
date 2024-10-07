@@ -60,6 +60,7 @@ Route::get('/metros/pending', [MetrosController::class, 'pending'])->name('metro
 
 
 Route::get('/mail-test', [MetrosController::class, 'mailTest'])->name('metros.mailTest');
+Route::get('/mail-resend/{id}', [MetrosController::class, 'mailResend'])->name('metros.mailResend');
 
 Route::post('/mercadopago/webhook', [MetrosController::class, 'handleWebhook'])->name('webhook.mercadopago');
 

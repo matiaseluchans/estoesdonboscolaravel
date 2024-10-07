@@ -181,6 +181,23 @@ class MetrosController extends Controller
 
     public function createPayment(Request $request, $id)
     {
+
+        $validatedData = $request->validate([
+
+            'nombre' => 'required|string|max:255',
+            'apellido' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'telefono' => 'required|string|max:20',
+
+        ], [
+            'nombre.required' => 'El campo nombre es obligatorio.',
+            'apellido.required' => 'El campo apellido es obligatorio.',
+            'email.required' => 'El campo email es obligatorio.',
+            'email.email' => 'Por favor, introduce una dirección de correo electrónico válida.',
+            'telefono.required' => 'El campo teléfono es obligatorio.',
+        ]);
+
+
         $data = Metro::findOrFail($id);
         $preference = new Preference();
 
@@ -189,8 +206,8 @@ class MetrosController extends Controller
         //$item->title = "Compra de Metro de Cesped " . $data->descripcion;
         $item->title = "Compra de Metro de Cesped ";
         $item->quantity = 1;
-        $item->unit_price = $data->precio;
-        //$item->unit_price = 1;
+        //$item->unit_price = $data->precio;
+        $item->unit_price = 1;
         $preference->items = [$item];
 
         $preference->notification_url = route('webhook.mercadopago');
@@ -500,75 +517,84 @@ class MetrosController extends Controller
 
                 // Obtener la información del pago desde MercadoPago usando el ID del pago
                 $paymentId = $notification['data']['id'];
-                $payment = \MercadoPago\Payment::find_by_id($paymentId);
 
-                if ($payment) {
-                    Log::info("Pago encontrado. ID: $paymentId, Estado: {$payment->status}");
+                $prodDB = Metro::where('data', 'like', '%"payment_id":"' . $paymentId . '"%')->first();
 
-                    // Verificar si el pago fue acreditado
-                    if ($payment->status == 'approved') {
-                        Log::info("Pago aprobado. Procesando actualización del producto.");
+                if ($prodDB) {
+                    Log::info("Producto ya actualizado previamente para este pago. ID del producto: $prodDB->id,  ID del pago: $paymentId");
+                    return response()->json(['status' => 'success', 'message' => 'Pago ya procesado'], 200);
+                } else {
+                    $payment = \MercadoPago\Payment::find_by_id($paymentId);
 
-                        // Obtener el ID del producto desde la metadata del pago
-                        /*
-                        $productoId = $payment->metadata->producto_id;
-                        $producto = Metro::findOrFail($productoId);
-                        */
-                        $producto = Metro::where('estado', 'DISPONIBLE')->first();
-                        $productoId = $producto->id;
+                    if ($payment) {
+                        Log::info("Pago encontrado. ID: $paymentId, Estado: {$payment->status}");
 
-                        if ($producto->estado == "DISPONIBLE") {
-                            // Actualizar el estado del producto a 'VENDIDO'
-                            $producto->estado = 'VENDIDO';
-                            $producto->nombre = $payment->metadata->nombre;
-                            $producto->apellido = $payment->metadata->apellido;
-                            $producto->email = $payment->metadata->email;
-                            $producto->telefono = $payment->metadata->telefono;
+                        // Verificar si el pago fue acreditado
+                        if ($payment->status == 'approved') {
+                            Log::info("Pago aprobado. Procesando actualización del producto.");
 
-                            $producto->data = json_encode([
-                                'payment_id' => $payment->id,
-                                'status' => $payment->status,
-                                'nombre' => $payment->metadata->nombre,
-                                'apellido' => $payment->metadata->apellido,
-                                'email' => $payment->metadata->email,
-                                'telefono' => $payment->metadata->telefono,
-                                'payment_method' => $payment->payment_method_id,
-                                //'merchant_order_id' => $payment->merchant_order_id
-                            ]);
+                            // Obtener el ID del producto desde la metadata del pago
+                            /*
+                            $productoId = $payment->metadata->producto_id;
+                            $producto = Metro::findOrFail($productoId);
+                            */
+                            $producto = Metro::where('estado', 'DISPONIBLE')->first();
+                            $productoId = $producto->id;
 
-                            // Guardar cambios en la base de datos
-                            $producto->save();
-                            Log::info("Producto actualizado correctamente. ID del producto: $productoId");
+                            if ($producto->estado == "DISPONIBLE") {
+                                // Actualizar el estado del producto a 'VENDIDO'
+                                $producto->estado = 'VENDIDO';
+                                $producto->nombre = $payment->metadata->nombre;
+                                $producto->apellido = $payment->metadata->apellido;
+                                $producto->email = $payment->metadata->email;
+                                $producto->telefono = $payment->metadata->telefono;
 
-                            // Preparar los datos para enviar por correo electrónico
-                            $data = [
-                                'status' => $payment->status,
-                                'payment_id' => $payment->id,
-                                'id' => $productoId,
-                                'nombre' => $payment->metadata->nombre,
-                                'apellido' => $payment->metadata->apellido,
-                                'email' => $payment->metadata->email,
-                                'telefono' => $payment->metadata->telefono,
-                                'descripcion' => $producto->descripcion
-                            ];
+                                $producto->data = json_encode([
+                                    'payment_id' => $payment->id,
+                                    'status' => $payment->status,
+                                    'nombre' => $payment->metadata->nombre,
+                                    'apellido' => $payment->metadata->apellido,
+                                    'email' => $payment->metadata->email,
+                                    'telefono' => $payment->metadata->telefono,
+                                    'payment_method' => $payment->payment_method_id,
+                                    //'merchant_order_id' => $payment->merchant_order_id
+                                ]);
 
-                            // Enviar correos a los contactos
-                            Mail::to('proyecto11desintetico@gmail.com')
-                                ->cc(['matiaseluchans@gmail.com', $payment->metadata->email])
-                                ->send(new TransactionStatusMail($data));
+                                // Guardar cambios en la base de datos
+                                $producto->save();
+                                Log::info("Producto actualizado correctamente. ID del producto: $productoId");
 
-                            Log::info("Correo enviado a contactos.");
+                                // Preparar los datos para enviar por correo electrónico
+                                $data = [
+                                    'status' => $payment->status,
+                                    'payment_id' => $payment->id,
+                                    'id' => $productoId,
+                                    'nombre' => $payment->metadata->nombre,
+                                    'apellido' => $payment->metadata->apellido,
+                                    'email' => $payment->metadata->email,
+                                    'telefono' => $payment->metadata->telefono,
+                                    'descripcion' => $producto->descripcion
+                                ];
+
+                                // Enviar correos a los contactos
+                                Mail::to('proyecto11desintetico@gmail.com')
+                                    ->cc(['matiaseluchans@gmail.com', $payment->metadata->email])
+                                    ->send(new TransactionStatusMail($data));
+
+                                Log::info("Correo enviado a contactos.");
+                                return response()->json(['status' => 'success', 'message' => 'Pago procesado'], 200);
+                            } else {
+                                Log::info("Producto ya se actualizo y el correo fue enviado anteriormente. ID del producto: $productoId");
+                            }
                         } else {
-                            Log::info("Producto ya se actualizo y el correo fue enviado anteriormente. ID del producto: $productoId");
+                            // Si el estado del pago no es 'approved', registrar un log con el estado
+                            Log::warning("El pago no fue aprobado. Estado: {$payment->status}");
+                            Log::info("Datos del cliente: Nombre: {$payment->metadata->nombre}, Email: {$payment->metadata->email}");
                         }
                     } else {
-                        // Si el estado del pago no es 'approved', registrar un log con el estado
-                        Log::warning("El pago no fue aprobado. Estado: {$payment->status}");
-                        Log::info("Datos del cliente: Nombre: {$payment->metadata->nombre}, Email: {$payment->metadata->email}");
+                        // Si no se encuentra el pago, registrar un log de error
+                        Log::error("No se pudo encontrar el pago con ID: $paymentId");
                     }
-                } else {
-                    // Si no se encuentra el pago, registrar un log de error
-                    Log::error("No se pudo encontrar el pago con ID: $paymentId");
                 }
             } else {
                 // Si no es una notificación de pago, registrar el tipo de notificación recibido
@@ -605,5 +631,38 @@ class MetrosController extends Controller
             'cantidadDisponibles' => $cantidadDisponibles,
             'porcentajeVendidos' => $porcentajeVendidos,
         ]);
+    }
+
+
+
+    public function mailresend(Request $request, $id)
+    {
+        $data = Metro::findOrFail($id);
+
+        // Recuperar la metadata que enviaste en la preferencia
+        $nombre = $data->nombre;
+        $apellido = $data->apellido;
+        $email = $data->email;
+        $telefono = $data->telefono;
+        $descripcion = $data->descripcion;
+        $dataMp = json_decode($data->data);
+
+
+
+        // Datos para enviar en el correo
+        $data = [
+            'status' => $dataMp->status,
+            'payment_id' => $dataMp->payment_id,
+            'id' => $data->id,
+            'nombre' => $nombre,
+            'apellido' => $apellido,
+            'email' => $email,
+            'telefono' => $telefono,
+            'descripcion' => $descripcion,
+        ];
+
+        Mail::to('proyecto11desintetico@gmail.com')
+            ->cc(['matiaseluchans@gmail.com', $email])
+            ->send(new TransactionStatusMail($data));
     }
 }
