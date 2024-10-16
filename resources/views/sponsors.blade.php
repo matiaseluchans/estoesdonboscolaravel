@@ -189,13 +189,13 @@
             "espacio": "9",
             "medida": "3 x 1",
             "precio": "$ 600.000",
-            "estado": "Disponible"
+            "estado": "Vendido"
         },
         {
             "espacio": "10",
             "medida": "3 x 1",
             "precio": "$ 600.000",
-            "estado": "Disponible"
+            "estado": "Vendido"
         },
 
         {
