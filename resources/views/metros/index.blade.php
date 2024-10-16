@@ -117,7 +117,7 @@
 
 
             <h5 class="pe-3 text-center display-24">¡Cada vez falta menos para tanto!</h5>
-            <div style="display: none;">
+            <div style="">
                 <div class="progress-container mt-4" style="">
                     <div class="progress-bar" style="width: {{ $porcentajeVendidos }}%;">
                         {{ $porcentajeVendidos }}% Completado

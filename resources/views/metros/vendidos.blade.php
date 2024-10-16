@@ -89,7 +89,7 @@
     <div class="row px-4">
 
 
-        <div class="col-md-6 col-xs-12 mx-auto" style="height: 700px;overflow-y:scroll;    border: thin solid rgba(0, 0, 0, 0.12);padding: 0px;">
+        <div class="col-md-8 col-xs-12 mx-auto" style="height: 700px;overflow-y:scroll;    border: thin solid rgba(0, 0, 0, 0.12);padding: 0px;">
             <div class="progress-container">
                 <div class="progress-bar" style="width: {{ $porcentajeVendidos }}%;">
                     {{ $porcentajeVendidos }}% Vendido
@@ -116,6 +116,7 @@
                         <th>Teléfono</th>
                         <th>Precio</th>
                         <th width="70">Estado</th>
+                        <th width="70">Asignar</th>
 
                     </tr>
                 </thead>
@@ -137,11 +138,76 @@
                                     @endif">
                                 {{ $d->estado }}
                             </span>
+                        </td>
+                        <td>
+                            @if($d->estado != 'VENDIDO')
+
+                            <a class="btn btn-warning btn-sm" onclick="editProduct({{ $d->id }}, '{{ $d->descripcion }}')"
+                                style="padding: 0px 6px 0px 6px; margin: 5px;"><i class=" fa fa-edit"></i></a>
+
+
+                            @endif
+
+                        </td>
 
                     </tr>
                     @endforeach
                 </tbody>
             </table>
+
+            <!-- Modal -->
+            <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editProductModalLabel">Asginar Metro<sup>2<sup></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Aquí se cargará dinámicamente el formulario con los datos del producto -->
+                            <form id="editProductForm" method="POST" action="{{ route('metros.update', $d->id) }}">
+                                @csrf
+                                @method('PUT')
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p><strong>Descripción:</strong> <span id="modalDescripcion"></span></p>
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <label for="nombre" class="form-label">Nombre</label>
+                                        <input type="text" name="nombre" id="nombre" class="form-control" required>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="apellido" class="form-label">Apellido</label>
+                                        <input type="text" name="apellido" id="apellido" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" name="email" id="email" class="form-control" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="telefono" class="form-label">Teléfono</label>
+                                        <input type="number" name="telefono" id="telefono" class="form-control" required>
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <div class="row mt-3">
+                                    <p class="mt-2" style="color:black">Al realizar tu colaboración se te asignarán 2 números válidos para cada uno de los sorteos.</p>
+
+                                    <div class="col-md-12 text-end">
+                                        <button type="submit" class="btn btn-primary">Guardar</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--modal-->
 
 
 
@@ -153,8 +219,37 @@
 </div>
 
 
+@if(session('success'))
 <script>
+    Swal.fire({
+        icon: 'success',
+        title: '¡El registro se realizo con exito!',
+        text: "{{ session(' success ') }}",
+        //timer: 3000,
+        showConfirmButton: true
+    });
+</script>
+@endif
 
+@if(session('error'))
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Ocurrio un error con el registro',
+        text: "{{ session('error ') }}",
+        //timer: 3000,
+        showConfirmButton: true
+    });
+</script>
+@endif
+<script>
+    function editProduct(id, descripcion) {
+        document.getElementById('editProductForm').action = `/metros/${id}`;
+        document.getElementById('modalDescripcion').innerText = descripcion;
+
+        $('#editProductModal').modal('show');
+
+    }
 </script>
 
 @endsection

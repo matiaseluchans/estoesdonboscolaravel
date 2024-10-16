@@ -69,7 +69,7 @@ Route::post('/mercadopago/webhook', [MetrosController::class, 'handleWebhook'])-
 
 Route::get('/log-viewer', [LogViewerController::class, 'index'])->middleware('auth');
 
-Route::get('/metros-vendidos', [MetrosController::class, 'vendidos'])->middleware('auth');
+Route::get('/metros-vendidos', [MetrosController::class, 'vendidos'])->middleware('auth')->name('metros.vendidos');;
 
 
 // Mostrar el formulario de login
@@ -77,3 +77,5 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 
 // Procesar el inicio de sesión
 Route::post('/login', [LoginController::class, 'login']);
+
+Route::get('/consultapago/{id}', [MetrosController::class, 'consultapago'])->name('metros.consultapago');

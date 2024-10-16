@@ -15,6 +15,7 @@ use MercadoPago\Payer;
 use App\Mail\TransactionStatusMail;
 use Illuminate\Support\Facades\Mail;
 
+use function GuzzleHttp\json_encode;
 
 class MetrosController extends Controller
 {
@@ -122,38 +123,76 @@ class MetrosController extends Controller
      * @param  \App\Models\Metro  $data
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Metro $data)
+    public function update(Request $request, $id)
     {
 
         // Validar los datos
         $validatedData = $request->validate([
 
-            'descripcion' => 'nullable|string|max:255',
+            //'descripcion' => 'nullable|string|max:255',
             'nombre' => 'nullable|string|max:255',
             'apellido' => 'nullable|string|max:255',
             'email' => 'nullable|email|max:255',
             'telefono' => 'nullable|string|max:20',
-            'data' => 'nullable|string',
-            'precio' => 'nullable|numeric',
-            'estado' => 'required|string|max:255',
+
         ]);
         // Intentar actualizar el producto
         try {
-            $data->update($validatedData);
 
-            // Redirigir al index con un mensaje de éxito
-            // return redirect()->route('metros.index')->with('success', 'Los datos se guardaron con éxito.');
-            return response()->json([
-                'success' => true,
-                'message' => 'Operación exitosa. El producto ha sido actualizado.'
-            ]);
+            $d = Metro::findOrFail($id);
+
+            $validatedData['estado'] = 'VENDIDO';
+            $validatedData['data'] =
+                json_encode([
+                    "payment_id" => "Pago manual",
+                    "status" => "Pago efectivo",
+                    'nombre' => $validatedData['nombre'],
+                    'apellido' => $validatedData['apellido'],
+                    'email ' =>  $validatedData['email'],
+                    'telefono' => $validatedData['telefono'],
+                    "payment_method" => "pago manual"
+                ]);
+
+
+
+            $d->update($validatedData);
+            $d->save();
+            $data = Metro::findOrFail($id);
+
+            // Recuperar la metadata que enviaste en la preferencia
+            $nombre = $data->nombre;
+            $apellido = $data->apellido;
+            $email = $data->email;
+            $telefono = $data->telefono;
+            $descripcion = $data->descripcion;
+            $dataMp = json_decode($data->data);
+
+
+
+            // Datos para enviar en el correo
+            $data = [
+                'status' => $dataMp->status,
+                'payment_id' => $dataMp->payment_id,
+                'id' => $data->id,
+                'nombre' => $nombre,
+                'apellido' => $apellido,
+                'email' => $email,
+                'telefono' => $telefono,
+                'descripcion' => $descripcion,
+            ];
+
+            Log::info(json_encode($data));
+
+            Mail::to($email)
+                ->cc(['proyecto11desintetico@gmail.com', 'matiaseluchans@gmail.com'])
+                ->send(new TransactionStatusMail($data));
+
+
+            return redirect()->route('metros.vendidos')->with('success', 'Los datos se guardaron con éxito.');
         } catch (\Exception $e) {
-            // Si ocurre algún error, redirigir a la vista de edición con un mensaje de error
-            //return redirect()->route('metros.edit', $data->id)->with('error', 'Revisa tus datos. No pudimos actualizar la información.');
-            return response()->json([
-                'success' => false,
-                'message' => 'Error al registrar la compra: ' . $e->getMessage()
-            ], 500);
+
+            return redirect()->route('metros.vendidos', $data->id)
+                ->with('error', 'Revisa tus datos. No pudimos actualizar la información.');
         }
     }
 
@@ -249,6 +288,9 @@ class MetrosController extends Controller
 
         // Guardar la preferencia
         $preference->save();
+
+        Log::info("preference.metadata");
+        Log::info(json_encode($preference->metadata));
 
         // Retornar el init_point de Mercado Pago
         return response()->json(['init_point' => $preference->init_point]);
@@ -518,7 +560,7 @@ class MetrosController extends Controller
                 // Obtener la información del pago desde MercadoPago usando el ID del pago
                 $paymentId = $notification['data']['id'];
 
-                $prodDB = Metro::where('data', 'like', '%"payment_id":"' . $paymentId . '"%')->first();
+                $prodDB = Metro::WhereRaw("JSON_EXTRACT(data, '$.payment_id') LIKE '%" . $paymentId . "%'")->first();
 
                 if ($prodDB) {
                     Log::info("Producto ya actualizado previamente para este pago. ID del producto: $prodDB->id,  ID del pago: $paymentId");
@@ -559,7 +601,8 @@ class MetrosController extends Controller
                                     'payment_method' => $payment->payment_method_id,
                                     //'merchant_order_id' => $payment->merchant_order_id
                                 ]);
-
+                                Log::info("producto->data");
+                                Log::info(json_encode($producto->data));
                                 // Guardar cambios en la base de datos
                                 $producto->save();
                                 Log::info("Producto actualizado correctamente. ID del producto: $productoId");
@@ -577,8 +620,10 @@ class MetrosController extends Controller
                                 ];
 
                                 // Enviar correos a los contactos
-                                Mail::to('proyecto11desintetico@gmail.com')
-                                    ->cc(['matiaseluchans@gmail.com', $payment->metadata->email])
+
+
+                                Mail::to($payment->metadata->email)
+                                    ->cc(['proyecto11desintetico@gmail.com', 'matiaseluchans@gmail.com'])
                                     ->send(new TransactionStatusMail($data));
 
                                 Log::info("Correo enviado a contactos.");
@@ -661,8 +706,23 @@ class MetrosController extends Controller
             'descripcion' => $descripcion,
         ];
 
-        Mail::to('proyecto11desintetico@gmail.com')
-            ->cc(['matiaseluchans@gmail.com', $email])
+        Mail::to($email)
+            ->cc(['proyecto11desintetico@gmail.com', 'matiaseluchans@gmail.com'])
             ->send(new TransactionStatusMail($data));
+    }
+
+
+
+    public function consultapago(Request $request, $paymentId)
+    {
+
+        $prodDB = Metro::WhereRaw("JSON_EXTRACT(data, '$.payment_id') LIKE '%" . $paymentId . "%'")->first();
+
+        if ($prodDB) {
+            Log::info("Producto ya actualizado previamente para este pago. ID del producto: $prodDB->id,  ID del pago: $paymentId");
+            return response()->json(['status' => 'success', 'message' => 'Pago ya procesado'], 200);
+        } else {
+            return response()->json(['status' => 'success', 'message' => 'Pago sin procesar'], 200);
+        }
     }
 }
