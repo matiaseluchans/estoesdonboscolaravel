@@ -153,19 +153,19 @@
             "espacio": "3",
             "medida": "2 x 2",
             "precio": "$ 700.000",
-            "estado": "Disponible"
+            "estado": "Vendido"
         },
         {
             "espacio": "4",
             "medida": "2 x 2",
             "precio": "$ 700.000",
-            "estado": "Disponible"
+            "estado": "Vendido"
         },
         {
             "espacio": "5",
             "medida": "2 x 2",
             "precio": "$ 700.000",
-            "estado": "Disponible"
+            "estado": "Vendido"
         },
         {
             "espacio": "6",

@@ -53,7 +53,7 @@
 
                         <div class="col-xl-12 botonesDePago" style="height: 300px;">
                             <div class="row mx-auto text-center">
-                                <!--<div class="col-xs-12">
+                                <div class="col-xs-12">
                                     <div class="row  mx-auto text-center d-none d-sm-block">
                                         <button class="btn btn-success btn-lg col-md-2 my-2 mx-1" type="button" onclick="link1000()"> $1.000</button>
                                         <button class="btn btn-success btn-lg col-md-2 my-2 mx-1" type="button" onclick="link3000()"> $3.000</button>
@@ -68,7 +68,7 @@
                                         <button class="btn btn-warning btn-lg col-xs-10 my-2 mx-1" type="button" onclick="link10000()"> $10.000</button>
                                         <button class="btn btn-warning btn-lg col-xs-10 my-2 mx-1" type="button" onclick="link25000()"> $25.000</button>
                                     </div>
-                                </div>-->
+                                </div>
 
 
 
