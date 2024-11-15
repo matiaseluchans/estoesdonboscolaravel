@@ -50,8 +50,8 @@
 
                         </p>
 
-
-                        <div class="col-xl-12 botonesDePago" style="height: 300px;">
+                        <!--pantalla grande-->
+                        <div class="col-xl-12 botonesDePago  d-none d-sm-block" style="height: 100px;">
                             <div class="row mx-auto text-center">
                                 <div class="col-xs-12">
                                     <div class="row  mx-auto text-center d-none d-sm-block">
@@ -61,6 +61,13 @@
                                         <button class="btn btn-warning btn-lg col-md-2 my-2 mx-1" type="button" onclick="link10000()"> $10.000</button>
                                         <button class="btn btn-warning btn-lg col-md-2 my-2 mx-1" type="button" onclick="link25000()"> $25.000</button>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--pantalla pequena-->
+                        <div class="col-xl-12 botonesDePago d-block d-sm-none" style="height: 350px;">
+                            <div class="row mx-auto text-center">
+                                <div class="col-xs-12">
                                     <div class="row  mx-auto text-center d-block d-sm-none">
                                         <button class="btn btn-success btn-lg col-xs-10 my-2 mx-1" type="button" onclick="link1000()"> $1.000</button>
                                         <button class="btn btn-success btn-lg col-xs-10 my-2 mx-1" type="button" onclick="link3000()"> $3.000</button>
@@ -73,14 +80,62 @@
 
 
                             </div>
+
+
+
                         </div>
                     </div>
 
                 </div>
             </div>
-        </div>
-    </div>
-    +++++++++++++++
-</div>
+            <!--pantalla grande-->
+            <div class="row  mx-auto  d-none d-sm-block">
+                <div class="col-md-8 offset-2" style="background-color: #d0fed73d;
+                    border-radius: 15px;
+                    padding: 20px;">
+                    <div class="col-md-12" style="text-align: left;">
+                        <h2>🎉 ¡Ecko vuelve al barrio en el Festival <span style="font-weight: 600">#11deSINTÉTICO!</span> 🎉<br></h2>
 
-@endsection
+
+                        Vení a disfrutar una noche única el domingo 8 de diciembre desde las 19:00 hs en el club junto a Ecko, padrino de nuestro proyecto, y DJ's invitados.<br>
+                        <br>
+                        🎶 Música en vivo<br>
+                        🥓 Parrilla<br>
+                        🍔 Food trucks<br>
+                        🍺 Barra<br>
+                        💸 Precios accesibles<br>
+                        👨‍👩‍👦‍👦 Ambiente familiar<br>
+                        🫰 Valor de la entrada anticipada y en puerta: <span style="font-weight: 600">$8.500</span<br>
+
+                            <br><br>Comprá tu entrada 👉 <a href="https://tickets.todoticket.ar/tickets/es/entradas-entradas-evento-11desintetico" target="_blank" rel="noopener noreferrer"><u>Acá</u></a>
+                    </div>
+                </div>
+            </div>
+            <!--pantalla pequena-->
+            <div class="row  mx-auto text-center d-block d-sm-none">
+                <div class="col-md-12" style="background-color: #d0fed73d;
+                    border-radius: 15px;
+                    padding: 20px;">
+                    <div style="text-align: left;">
+                        <h2>🎉 ¡Ecko vuelve al barrio en el Festival <span style="font-weight: 600">#11deSINTÉTICO!</span> 🎉<br></h2>
+
+                        <div class="col-xs-12" style="text-align: left;">
+                            Vení a disfrutar una noche única el domingo 8 de diciembre desde las 19:00 hs en el club junto a Ecko, padrino de nuestro proyecto, y DJ's invitados.<br>
+                            <br>
+                            🎶 Música en vivo<br>
+                            🥓 Parrilla<br>
+                            🍔 Food trucks<br>
+                            🍺 Barra<br>
+                            💸 Precios accesibles<br>
+                            👨‍👩‍👦‍👦 Ambiente familiar<br>
+                            🫰 Valor de la entrada anticipada<br> y en puerta: <span style="font-weight: 600">$8.500</span<br>
+                        </div>
+                        <br>Comprá tu entrada 👉 <a href="https://tickets.todoticket.ar/tickets/es/entradas-entradas-evento-11desintetico" target="_blank" rel="noopener noreferrer"><u>Acá</u></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    @endsection

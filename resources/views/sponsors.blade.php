@@ -220,7 +220,7 @@
             "espacio": "14",
             "medida": "4 x 2",
             "precio": "$ 1.000.000",
-            "estado": "Disponible"
+            "estado": "Vendido"
         },
         {
             "espacio": "15",
