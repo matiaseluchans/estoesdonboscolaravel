@@ -45,7 +45,7 @@
                             <br><br>
                             Para celebrar y apoyar esta renovación, Ecko ofrecerá un espectacular show en nuestra cancha. Será una noche para disfrutar de su música y unirnos en torno a la revitalización de nuestro espacio deportivo.
                             <br><br>
-                            Te invitamos a r con el proyecto y hacer posible este cambio. Puedes contribuir con $1.000, $3.000, $5.000 o $10.000 para ayudar a construir una cancha de primer nivel que beneficiará a todos. Tu apoyo es fundamental para hacer realidad este sueño.
+                            Te invitamos a colaborar con el proyecto y hacer posible este cambio. Puedes contribuir con $1.000, $3.000, $5.000 o $10.000 para ayudar a construir una cancha de primer nivel que beneficiará a todos. Tu apoyo es fundamental para hacer realidad este sueño.
                             <b>¡Hacé tu aporte hoy y sé parte de esta transformación!</b>
 
                         </p>
