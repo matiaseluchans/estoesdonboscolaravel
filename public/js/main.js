@@ -15,7 +15,6 @@ function abrirSpotify() {
     window.open(url, '_blank');
 }
 
-
 function link1000() {
     const url = "https://mpago.la/1EREfd9";
     window.open(url, '_blank');
