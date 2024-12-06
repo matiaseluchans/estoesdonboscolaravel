@@ -10,13 +10,13 @@
             <li data-bs-target="#carouselId" data-bs-slide-to="3"></li>
             <li data-bs-target="#carouselId" data-bs-slide-to="4"></li>
             <li data-bs-target="#carouselId" data-bs-slide-to="5"></li>
-            <li data-bs-target="#carouselId" data-bs-slide-to="6"></li>
+            <!--<li data-bs-target="#carouselId" data-bs-slide-to="6"></li>-->
 
         </ol>
         <div class="carousel-inner" role="listbox">
 
 
-            <div class="carousel-item active ">
+            <!--<div class="carousel-item  ">
                 <div class="d-none d-sm-block">
                     <img src="img/venta_ecko_1.jpeg" class="img-fluid " alt="Image">
 
@@ -48,8 +48,8 @@
 
                     </div>
                 </div>
-            </div>
-            <div class="carousel-item ">
+            </div>-->
+            <div class="carousel-item active">
                 <img src="img/cancha2.jpeg" class="img-fluid" alt="Image">
                 <div class="carousel-caption">
                     <div class="text-center p-4" style="max-width: 900px;">

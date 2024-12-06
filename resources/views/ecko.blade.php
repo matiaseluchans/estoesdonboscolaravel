@@ -89,7 +89,7 @@
                 </div>
             </div>
             <!--pantalla grande-->
-            <div class="row  mx-auto  d-none d-sm-block">
+            <!--<div class="row  mx-auto  d-none d-sm-block">
                 <div class="col-md-8 offset-2" style="background-color: #d0fed73d;
                     border-radius: 15px;
                     padding: 20px;">
@@ -110,9 +110,9 @@
                             <br><br>Comprá tu entrada 👉 <a href="https://tickets.todoticket.ar/tickets/es/entradas-entradas-evento-11desintetico" target="_blank" rel="noopener noreferrer"><u>Acá</u></a>
                     </div>
                 </div>
-            </div>
+            </div>-->
             <!--pantalla pequena-->
-            <div class="row  mx-auto text-center d-block d-sm-none">
+            <!--<div class="row  mx-auto text-center d-block d-sm-none">
                 <div class="col-md-12" style="background-color: #d0fed73d;
                     border-radius: 15px;
                     padding: 20px;">
@@ -133,7 +133,7 @@
                         <br>Comprá tu entrada 👉 <a href="https://tickets.todoticket.ar/tickets/es/entradas-entradas-evento-11desintetico" target="_blank" rel="noopener noreferrer"><u>Acá</u></a>
                     </div>
                 </div>
-            </div>
+            </div>-->
         </div>
 
     </div>
