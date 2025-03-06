@@ -97,6 +97,9 @@
             </div>
 
             <div class="text-center mt-3">
+                <form action="{{ route('metros.vendidosexport') }}" method="GET">
+                    <button class="btn btn-success" type="submit">Exportar a Excel</button>
+                </form>
                 <p>{{ number_format($porcentajeVendidos, 2, ',', '.') }}% Completado</p>
                 <p>{{ $cantidadVendidos }} metros cuadrados <span class="badge bg-danger">VENDIDOS</span></p>
                 <p>{{ $cantidadDisponibles }} metros cuadrados <span class="badge bg-success">DISPONIBLES</span></p>

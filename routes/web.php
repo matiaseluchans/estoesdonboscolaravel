@@ -71,6 +71,8 @@ Route::get('/log-viewer', [LogViewerController::class, 'index'])->middleware('au
 
 Route::get('/metros-vendidos', [MetrosController::class, 'vendidos'])->middleware('auth')->name('metros.vendidos');
 
+Route::get('/export', [MetrosController::class, 'vendidosexport'])->middleware('auth')->name('metros.vendidosexport');
+
 
 // Mostrar el formulario de login
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -81,5 +83,3 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::get('/consultapago/{id}', [MetrosController::class, 'consultapago'])->name('metros.consultapago');
 
 Route::get('/vendidos', [MetrosController::class, 'vendidospublic'])->name('metros.vendidospublic');
-
-Route::get('/vendidospublicexport', [MetrosController::class, 'vendidosPublicExport'])->name('metros.vendidospublicexport');

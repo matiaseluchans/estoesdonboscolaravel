@@ -5,7 +5,7 @@ namespace App\Exports;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
 
-class MetrosVendidosPublicExport implements FromCollection
+class MetrosVendidosExport implements FromCollection
 {
     protected $data;
 

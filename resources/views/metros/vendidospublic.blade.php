@@ -101,9 +101,7 @@
 
 
             <div class="text-center mt-3">
-                <form action="{{ route('metros.vendidospublicexport') }}" method="GET">
-                    <button class="btn btn-success" type="submit">Exportar a Excel</button>
-                </form>
+
 
                 <p>{{ number_format($porcentajeVendidos, 2, ',', '.') }}% Completado</p>
                 <p>{{ $cantidadVendidos }} metros cuadrados <span class="badge bg-danger">VENDIDOS</span></p>
@@ -117,11 +115,11 @@
                 <thead>
                     <tr>
 
-                        <th>Tickets</th>
+                        <th style="padding-left:20px">Rifas</th>
                         <th>Nombre</th>
                         <th>Apellido</th>
-                        <th>Email</th>
-                        <th>Teléfono</th>
+                        <!--<th>Email</th>
+                        <th>Teléfono</th>-->
 
                         <th width="70">Estado</th>
 
@@ -133,11 +131,11 @@
                     @foreach($data as $d)
                     <tr>
 
-                        <td>{{ $d->descripcion }}</td>
+                        <td style="padding-left:20px">{{ $d->descripcion }}</td>
                         <td>{{ $d->nombre }}</td>
                         <td>{{ $d->apellido }}</td>
-                        <td>{{ $d->emailoculto }}</td>
-                        <td>{{ $d->telefonooculto }}</td>
+                        <!--<td>{{ $d->emailoculto }}</td>
+                        <td>{{ $d->telefonooculto }}</td>-->
                         <td> <span class="badge
                                     @if($d->estado == 'DISPONIBLE')
                                         bg-success

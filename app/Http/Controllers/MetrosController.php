@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Mail;
 use function GuzzleHttp\json_encode;
 
 
-use App\Exports\MetrosVendidosPublicExport;
+use App\Exports\MetrosVendidosExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 
@@ -762,25 +762,25 @@ class MetrosController extends Controller
         ]);
     }
 
-    public function vendidosPublicExport()
+    public function vendidosexport()
     {
         // Query específica: por ejemplo, solo productos disponibles
-        $data = Metro::select('descripcion', 'nombre', 'apellido', 'telefono', 'email')
+        $data = Metro::select('descripcion', 'nombre', 'apellido')
             ->where('estado', 'VENDIDO')
             ->orderBy('id')
             ->get();
 
-        foreach ($data as $k => $v) {
+        /*foreach ($data as $k => $v) {
             $data[$k]["emailoculto"] = mostrarPrimerosDigitos($data[$k]["email"], 6);
             unset($data[$k]["email"]);
             $data[$k]["telefonooculto"] = mostrarUltimosDigitos($data[$k]["telefono"], 4);
             unset($data[$k]["telefono"]);
-        }
+        }*/
         //$html = View::make('metros.exportsvendidospublic', compact('data'))->render();
 
         $fileName = 'metros_vendidos_' . date("d-m-Y") . '.xlsx';
 
-        return Excel::download(new MetrosVendidosPublicExport($data), $fileName);
+        return Excel::download(new MetrosVendidosExport($data), $fileName);
     }
 }
 
