@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\MetrosVendidosPublic;
 use App\Models\Metro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -15,7 +16,13 @@ use MercadoPago\Payer;
 use App\Mail\TransactionStatusMail;
 use Illuminate\Support\Facades\Mail;
 
+
 use function GuzzleHttp\json_encode;
+
+
+use App\Exports\MetrosVendidosPublicExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class MetrosController extends Controller
 {
@@ -725,4 +732,82 @@ class MetrosController extends Controller
             return response()->json(['status' => 'success', 'message' => 'Pago sin procesar'], 200);
         }
     }
+
+
+    public function vendidospublic()
+    {
+        // Obtener todos los productos
+        $data = Metro::where('estado', 'VENDIDO')
+            ->orderBy('id')
+            ->get();
+
+        $cantidadVendidos = $data->count();
+        $cantidadTotal = Metro::count();
+        $cantidadDisponibles = $cantidadTotal - $cantidadVendidos;
+
+        $porcentajeVendidos = ($cantidadVendidos / $cantidadTotal) * 100;
+
+        // Pasamos las variables a la vista
+        // return view('metros.index', compact('cantidadVendidos', 'cantidadDisponibles', 'porcentajeVendidos'));
+
+        foreach ($data as $k => $v) {
+            $data[$k]["emailoculto"] = mostrarPrimerosDigitos($data[$k]["email"], 6);
+            $data[$k]["telefonooculto"] = mostrarUltimosDigitos($data[$k]["telefono"], 4);
+        }
+        return view('metros.vendidospublic', [
+            'data' => $data,
+            'cantidadVendidos' => $cantidadVendidos,
+            'cantidadDisponibles' => $cantidadDisponibles,
+            'porcentajeVendidos' => $porcentajeVendidos,
+        ]);
+    }
+
+    public function vendidosPublicExport()
+    {
+        // Query específica: por ejemplo, solo productos disponibles
+        $data = Metro::select('descripcion', 'nombre', 'apellido', 'telefono', 'email')
+            ->where('estado', 'VENDIDO')
+            ->orderBy('id')
+            ->get();
+
+        foreach ($data as $k => $v) {
+            $data[$k]["emailoculto"] = mostrarPrimerosDigitos($data[$k]["email"], 6);
+            unset($data[$k]["email"]);
+            $data[$k]["telefonooculto"] = mostrarUltimosDigitos($data[$k]["telefono"], 4);
+            unset($data[$k]["telefono"]);
+        }
+        //$html = View::make('metros.exportsvendidospublic', compact('data'))->render();
+
+        $fileName = 'metros_vendidos_' . date("d-m-Y") . '.xlsx';
+
+        return Excel::download(new MetrosVendidosPublicExport($data), $fileName);
+    }
+}
+
+
+
+
+function mostrarUltimosDigitos($texto, $num)
+{
+    $longitud = strlen($texto);
+
+    if ($longitud <= $num) {
+        return $texto; // Si tiene 6 o menos, mostramos todo
+    }
+
+    $oculto = str_repeat('*', $longitud - $num); // Asteriscos según la longitud menos los últimos 6
+    $visible = substr($texto, -$num); // Últimos 6 caracteres
+    return $oculto . $visible;
+}
+function mostrarPrimerosDigitos($texto, $num)
+{
+    $longitud = strlen($texto);
+
+    if ($longitud <= $num) {
+        return $texto; // Si la longitud es menor o igual a $num, mostramos todo el texto
+    }
+
+    $visible = substr($texto, 0, $num); // Primeros N caracteres
+    $oculto = str_repeat('*', $longitud - $num); // Asteriscos para el resto
+    return $visible . $oculto;
 }
