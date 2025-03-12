@@ -645,7 +645,7 @@ class MetrosController extends Controller
 
 
                                 Mail::to($payment->metadata->email)
-                                    ->cc([/*'proyecto11desintetico@gmail.com',*/'matiaseluchans@gmail.com'])
+                                    ->cc(['proyecto11desintetico@gmail.com', 'matiaseluchans@gmail.com'])
                                     ->send(new TransactionStatusMail($data));
 
                                 Log::info("Correo enviado a contactos.");
