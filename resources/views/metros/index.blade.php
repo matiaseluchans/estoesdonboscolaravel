@@ -100,11 +100,12 @@
 
 <div class="container-fluid bg-breadcrumb">
     <div class="container text-center pt-2 pb-2" style="max-width: 900px;">
-        <h3 class="text-white display-3 mb-4 wow fadeInDown" data-wow-delay="0.1s">Colaborá con un M<sup>2</sup> </h1>
+        <h3 class="text-white display-3 mb-4 wow fadeInDown" data-wow-delay="0.1s">Colaborá con el proyecto </h1>
             <div class="text-center my-3">
-                <a class="btn btn-warning btn-lg flash" onclick="editProduct(1)">Obtené tu M<sup>2 </sup></a>
-                <h5 class="text-white mt-2 mb-1 " style="font-size:28px;margin-top:20px !important">Cada metro cuenta:<br> $30.000 por m<sup>2</sup> <br> 2 chances de ganar!</h5>
-
+                <a class="btn btn-warning btn-lg flash" onclick="editProduct(2, 'Colaborá', 'Al realizar tu colaboración se te asignarán 2 números válidos para cada uno de los sorteos.')">Colaborá<br>$30.000<br> 2 rifas</a>
+                <a class="btn btn-warning btn-lg flash" onclick="editProduct(1, 'Colaborá', 'Al realizar tu colaboración se te asignarán 1 número válido para cada uno de los sorteos.')">Colaborá<br>$15.000<br> 1 rifa</a>
+                <!--<h5 class="text-white mt-2 mb-1 " style="font-size:28px;margin-top:20px !important">Cada metro cuenta:<br> $30.000 por m<sup>2</sup> <br> 2 chances de ganar!</h5>
+-->
                 <p class=" pb-0 mb-0" style="color:white;font-size:20px;margin-top:10px">Los números son válidos para cada uno de los sorteos.</p>
 
             </div>
@@ -189,7 +190,8 @@
 -->
         <div class="col-md-6 col-xs-12 mx-auto">
             <div class="text-center my-3">
-                <a class="btn btn-warning btn-lg flash" onclick="editProduct(1)">Obtené tu M<sup>2 </sup></a>
+                <a class="btn btn-warning btn-lg flash" style="font-size:0.8rem" onclick="editProduct(2,  'Colaborá', 'Al realizar tu colaboración se te asignarán 2 números válidos para cada uno de los sorteos.')">Colaborá<br>$30.000<br> 2 rifas</a>
+                <a class="btn btn-warning btn-lg flash" style="font-size:0.8rem" onclick="editProduct(1,  'Colaborá', 'Al realizar tu colaboración se te asignarán 1 número válido para cada uno de los sorteos.')">Colaborá<br>$15.000<br> 1 rifa</a>
                 <p class="" style="margin-top:7%">Al realizar tu colaboración se te asignarán 2 números válidos para cada uno de los sorteos.</p>
                 <a href="pdf/terminos.pdf" target="_blank" class="btn btn-default" style="color: blue; text-decoration: underline;">Ver términos y condiciones</a>
 
@@ -247,6 +249,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
+
                             <h5 class="modal-title" id="editProductModalLabel">Colabora con 1 metro<sup>2<sup></h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
@@ -294,7 +297,7 @@
                                 </div>-->
                                 <hr>
                                 <div class="row mt-3">
-                                    <p class="mt-2" style="color:black">Al realizar tu colaboración se te asignarán 2 números válidos para cada uno de los sorteos.</p>
+                                    <p class="mt-2" style="color:black">Al realizar tu colaboración se te asignarán el/los número/s válido/s para cada uno de los sorteos.</p>
 
                                     <div class="col-md-12 text-end">
                                         <button type="button" id="mp-button" class="btn btn-primary">Realizar Pago</button>
@@ -369,8 +372,16 @@
 @endif
 
 <script>
-    function editProduct(id) {
-        $('#editProductForm').attr('action', `/metros/${id}`);
+    function editProduct(tipo_rifa, textoTitulo, textoAdicional) {
+        console.log(tipo_rifa);
+        $('#editProductForm').attr('action', `/metros/${tipo_rifa}`);
+
+        // Actualiza el título del modal
+        $('#editProductModalLabel').html(textoTitulo);
+
+        // Actualiza el texto adicional dentro del modal
+        $('#editProductModal .modal-body p').html(textoAdicional);
+
         $('#editProductModal').modal('show');
         // Realiza una petición AJAX para obtener los datos del producto por ID
         /*$.ajax({
@@ -453,7 +464,7 @@
                 formDataObject[field.name] = field.value;
             });
 
-            let productId = form.attr('action').split('/').pop();
+            let tipo_rifa = form.attr('action').split('/').pop();
 
             Swal.fire({
                 title: 'Aguarde un momento',
@@ -467,7 +478,7 @@
 
             // Realizar la llamada AJAX para redirigir a Mercado Pago
             $.ajax({
-                url: `/metros-pago/${productId}`,
+                url: `/metros-pago/${tipo_rifa}`,
                 method: 'POST',
                 data: formDataObject,
                 success: function(response) {

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('telefono')->nullable();
             $table->longText('data')->nullable();
+            $table->integer('cant_rifas')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

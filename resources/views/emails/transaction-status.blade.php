@@ -221,7 +221,7 @@
                              <tr style="vertical-align:text-top" align="center">
 
                                  <td class="text-center" style="width:290px;">
-                                     <p class="text-center display-18">Tus números para cada uno de los sorteos son:</p>
+                                     <p class="text-center display-18">Tu/s número/s para cada uno de los sorteos es/son:</p>
                                      <p class="bg-color title text-center display-24-white margin-20">
                                          {{ $data['descripcion']  }}
                                      </p>

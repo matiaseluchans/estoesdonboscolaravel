@@ -244,7 +244,17 @@ class MetrosController extends Controller
         ]);
 
 
-        $data = Metro::findOrFail($id);
+        //$data = Metro::findOrFail($id);
+
+        $tipo_rifa = $id;
+
+
+
+
+        $data = Metro::where('estado', '=', 'DISPONIBLE')
+            ->where("tipo_rifa", '=', $tipo_rifa)
+            ->first();
+
         $preference = new Preference();
 
         // Crear el objeto de item
@@ -282,7 +292,8 @@ class MetrosController extends Controller
             'apellido' => $request->input('apellido'),
             'email' => $request->input('email'),
             'telefono' => $request->input('telefono'),
-            'descripcion' => $data->descripcion
+            'descripcion' => $data->descripcion,
+            'tipo_rifa' => $data->tipo_rifa
         ];
 
         // Configuración de las URLs de retorno
@@ -587,7 +598,10 @@ class MetrosController extends Controller
                             $productoId = $payment->metadata->producto_id;
                             $producto = Metro::findOrFail($productoId);
                             */
-                            $producto = Metro::where('estado', 'DISPONIBLE')->first();
+                            $producto = Metro::where('estado', '=', 'DISPONIBLE')
+                                ->where("tipo_rifa", '=', $payment->metadata->tipo_rifa)
+                                ->first();
+
                             $productoId = $producto->id;
 
                             if ($producto->estado == "DISPONIBLE") {
@@ -623,14 +637,15 @@ class MetrosController extends Controller
                                     'apellido' => $payment->metadata->apellido,
                                     'email' => $payment->metadata->email,
                                     'telefono' => $payment->metadata->telefono,
-                                    'descripcion' => $producto->descripcion
+                                    'descripcion' => $producto->descripcion,
+                                    'tipo_rifa' => $producto->tipo_rifa
                                 ];
 
                                 // Enviar correos a los contactos
 
 
                                 Mail::to($payment->metadata->email)
-                                    ->cc(['proyecto11desintetico@gmail.com', 'matiaseluchans@gmail.com'])
+                                    ->cc([/*'proyecto11desintetico@gmail.com',*/'matiaseluchans@gmail.com'])
                                     ->send(new TransactionStatusMail($data));
 
                                 Log::info("Correo enviado a contactos.");
