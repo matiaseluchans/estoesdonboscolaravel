@@ -80,7 +80,7 @@
 
 <div class="container-fluid bg-breadcrumb">
     <div class="container text-center py-5" style="max-width: 900px;">
-        <h3 class="text-white display-3 mb-4 wow fadeInDown" data-wow-delay="0.1s">Listado De Metros Vendidos</h1>
+        <h3 class="text-white display-3 mb-4 wow fadeInDown" data-wow-delay="0.1s">Listado de Rifas Vendidas</h1>
 
     </div>
 </div>
@@ -89,12 +89,13 @@
     <div class="row px-4">
 
 
-        <div class="col-md-10 col-xs-12 mx-auto" style="height: 700px;overflow-y:scroll;    border: thin solid rgba(0, 0, 0, 0.12);padding: 0px;">
-            <div class="progress-container">
+        <div class="col-md-10 col-xs-12 mx-auto" style="    border: thin solid rgba(0, 0, 0, 0.12);padding: 0px;">
+            <!--
+        <div class="progress-container">
 
 
                 <div class="progress-bar" style="width: {{ $porcentajeVendidos }}%;">
-                    {{ $porcentajeVendidos }}% Vendido
+                    {{ number_format($porcentajeVendidos, 2, ',', '.') }}% Vendido
                 </div>
             </div>
 
@@ -107,11 +108,13 @@
                 <p>{{ $cantidadVendidos }} metros cuadrados <span class="badge bg-danger">VENDIDOS</span></p>
                 <p>{{ $cantidadDisponibles }} metros cuadrados <span class="badge bg-success">DISPONIBLES</span></p>
             </div>
+-->
 
             @if($data->isEmpty())
             <p>No hay productos disponibles.</p>
             @else
-            <table class="table table-striped">
+            <br>
+            <table class="table table-striped ">
                 <thead>
                     <tr>
 

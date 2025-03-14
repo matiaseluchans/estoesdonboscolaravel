@@ -126,6 +126,7 @@
                     <a href="{{ route('home') }}" class="text-center nav-item nav-link {{ Request::is('/') ? 'active' : '' }}">Inicio</a>
                     <a href="{{ route('metros.index') }}" class="text-center nav-item nav-link {{ Request::is('metros*') ? 'active' : '' }}"><span class="badge bg-warning" style="font-size: 16px;">Colaborá</span></a>
                     <a href="{{ route('home') }}#proyecto" class="text-center nav-item nav-link">Proyecto</a>
+                    <a href="{{ route('metros.vendidospublic')}}" class="text-center nav-item nav-link">Rifas Vendidas</a>
                     <a href=" {{ route('ecko') }}" class="text-center nav-item nav-link {{ Request::is('ecko') ? 'active' : '' }}">Ecko</a>
                     <!--<a href="{{ route('colabora') }}" class="text-center nav-item nav-link botonesDePago {{ Request::is('colabora') ? 'active' : '' }}">
                         <span class="badge bg-warning" style="font-size: 16px;">Colaborá</span>
