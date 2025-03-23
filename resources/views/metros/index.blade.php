@@ -121,7 +121,7 @@
             <div style="">
                 <div class="progress-container mt-4" style="">
                     <div class="progress-bar" style="width: {{ $porcentajeVendidos }}%;">
-                        {{ $porcentajeVendidos }}% Completado
+                        {{ number_format($porcentajeVendidos, 2, ',', '.')}}% Completado
                     </div>
                 </div>
 
