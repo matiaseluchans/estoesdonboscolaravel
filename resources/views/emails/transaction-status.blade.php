@@ -194,11 +194,11 @@
                                                  <td>Un juego de living completo</td>
                                              </tr>
                                              <tr style="background:#ddd">
-                                                 <td style="height:13px" class="text-start">26 de marzo 2025</td>
+                                                 <td style="height:13px" class="text-start">29 de marzo 2025</td>
                                                  <td>Una moto eléctrica</td>
                                              </tr>
                                              <tr>
-                                                 <td style="height:13px" class="text-start">28 de mayo 2025</td>
+                                                 <td style="height:13px" class="text-start">23 de mayo 2025</td>
                                                  <td>Una PlayStation 5</td>
                                              </tr>
 
