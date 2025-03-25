@@ -190,8 +190,8 @@
 -->
         <div class="col-md-6 col-xs-12 mx-auto">
             <div class="text-center my-3">
-                <a class="btn btn-warning btn-lg flash" style="font-size:0.8rem" onclick="editProduct(2,  'Colaborá', 'Al realizar tu colaboración se te asignarán 2 números válidos para cada uno de los sorteos.')">Colaborá<br>$30.000<br> 2 rifas</a>
-                <a class="btn btn-warning btn-lg flash" style="font-size:0.8rem" onclick="editProduct(1,  'Colaborá', 'Al realizar tu colaboración se te asignarán 1 número válido para cada uno de los sorteos.')">Colaborá<br>$15.000<br> 1 rifa</a>
+                <a class="btn btn-warning btn-lg flash" style="font-size:0.8rem" onclick="editProduct(2,  'Colaborá', 'Al realizar tu colaboración se te asignarán 2 números válidos para cada uno de los sorteos.')">Colaborá<br>$30.000<br> 2 Números</a>
+                <a class="btn btn-warning btn-lg flash" style="font-size:0.8rem" onclick="editProduct(1,  'Colaborá', 'Al realizar tu colaboración se te asignarán 1 número válido para cada uno de los sorteos.')">Colaborá<br>$15.000<br> 1 Número</a>
                 <p class="" style="margin-top:7%">Al realizar tu colaboración se te asignarán 2 números válidos para cada uno de los sorteos.</p>
                 <a href="pdf/terminos.pdf" target="_blank" class="btn btn-default" style="color: blue; text-decoration: underline;">Ver términos y condiciones</a>
 
